@@ -11,10 +11,12 @@ import java.sql.Timestamp;
 public class Trainer {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "trainer_id")
     private int trainerId;
 
 
-    @OneToOne(mappedBy="buId", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bu_id")
     private BusinessUnit businessUnit;
 
     private String trainerName, skypeId, emailId, reportingManagerEmailId;

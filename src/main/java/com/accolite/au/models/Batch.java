@@ -14,6 +14,7 @@ import java.util.Set;
 public class Batch {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "batch_id")
     private int batchId;
 
     private String batchName, commonSkypeId, commonClassroomId;

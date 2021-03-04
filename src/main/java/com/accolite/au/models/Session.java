@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public class Session {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "session_id")
     private int sessionId;
 
     private String sessionName, classroomTopicId;

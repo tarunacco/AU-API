@@ -1,7 +1,5 @@
 package com.accolite.au.services.impl;
 
-import com.accolite.au.models.Student;
-import com.accolite.au.repositories.StudentRepository;
 import com.accolite.au.services.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
