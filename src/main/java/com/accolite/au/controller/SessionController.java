@@ -21,12 +21,12 @@ public class SessionController {
 
     @PostMapping({"/add"})
     public ResponseEntity<SessionDTO> addSession(@Valid @RequestBody SessionDTO sessionDTO) {
-        return new ResponseEntity(sessionService.addSession(sessionDTO), HttpStatus.CREATED);
+        return new ResponseEntity(sessionService.addOrUpdateSession(sessionDTO), HttpStatus.CREATED);
     }
 
     @PutMapping({"/update"})
     public ResponseEntity<SessionDTO> updateSession(@Valid @RequestBody SessionDTO sessionDTO) {
-        return new ResponseEntity(sessionService.updateSession(sessionDTO), HttpStatus.CREATED);
+        return new ResponseEntity(sessionService.addOrUpdateSession(sessionDTO), HttpStatus.CREATED);
     }
 
     @GetMapping({"/all"})

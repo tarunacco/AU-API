@@ -11,9 +11,7 @@ public interface StudentService {
 
     StudentDTO getStudent(int studentId);
 
-    StudentDTO addStudentToBatch(StudentDTO studentDTO);
-
-    StudentDTO updateStudent(StudentDTO studentDTO);
+    StudentDTO addOrUpdateStudentToBatch(StudentDTO studentDTO);
 
     SuccessResponseDTO deleteStudent(int studentId);
 }

@@ -32,7 +32,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentDTO> getAllStudentsForABatch(int batchId){
         if(batchRepository.existsById(batchId)) {
-            return studentMapper.toStudentDTOs(studentRepository.findAllByBatch_BatchIdOOrderByFirstNameAsc(batchId));
+            return studentMapper.toStudentDTOs(studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId));
         }
         throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
     }
@@ -46,7 +46,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDTO addStudentToBatch(StudentDTO studentDTO){
+    public StudentDTO addOrUpdateStudentToBatch(StudentDTO studentDTO){
         if(batchRepository.existsById(studentDTO.getBatchId())) {
             Student student = studentMapper.toStudent(studentDTO);
             Batch batchReference = entityManager.getReference(Batch.class, studentDTO.getBatchId());
@@ -54,15 +54,6 @@ public class StudentServiceImpl implements StudentService {
             return studentMapper.toStudentDTO(studentRepository.saveAndFlush(student));
         }
         throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + studentDTO.getBatchId() + " not Found");
-    }
-
-    @Override
-    public StudentDTO updateStudent(StudentDTO studentDTO){
-        if(studentRepository.existsById(studentDTO.getStudentId())) {
-            Student student = studentMapper.toStudent(studentDTO);
-            return studentMapper.toStudentDTO(studentRepository.saveAndFlush(student));
-        }
-        throw new CustomEntityNotFoundExceptionDTO("Student with id : " + studentDTO.getStudentId() + " not Found");
     }
 
     @Override

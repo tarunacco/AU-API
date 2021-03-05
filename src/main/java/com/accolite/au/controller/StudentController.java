@@ -21,12 +21,12 @@ public class StudentController {
 
     @PostMapping({"/add"})
     public ResponseEntity<StudentDTO> addStudentToBatch(@Valid @RequestBody StudentDTO studentDTO) {
-        return new ResponseEntity(studentService.addStudentToBatch(studentDTO), HttpStatus.CREATED);
+        return new ResponseEntity(studentService.addOrUpdateStudentToBatch(studentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping({"/update"})
     public ResponseEntity<StudentDTO> updateStudent(@Valid @RequestBody StudentDTO studentDTO) {
-        return new ResponseEntity(studentService.updateStudent(studentDTO), HttpStatus.CREATED);
+        return new ResponseEntity(studentService.addOrUpdateStudentToBatch(studentDTO), HttpStatus.CREATED);
     }
 
     @GetMapping({"/all"})

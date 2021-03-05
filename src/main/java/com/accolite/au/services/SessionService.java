@@ -9,11 +9,11 @@ public interface SessionService {
 
     SuccessResponseDTO deleteSession(int SessionId);
 
-    SessionDTO addSession(SessionDTO sessionDTO);
+    SessionDTO addOrUpdateSession(SessionDTO sessionDTO);
 
     List<SessionDTO> getAllSessions(int batchId);
 
     SessionDTO getSession(int sessionId);
 
-    SessionDTO updateSession(SessionDTO sessionDTO);
+    //SessionDTO updateSession(SessionDTO sessionDTO);
 }

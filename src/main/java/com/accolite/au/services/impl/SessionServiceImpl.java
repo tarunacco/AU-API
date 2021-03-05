@@ -38,7 +38,7 @@ public class SessionServiceImpl implements SessionService {
 
 
     @Override
-    public SessionDTO addSession(SessionDTO sessionDTO) {
+    public SessionDTO addOrUpdateSession(SessionDTO sessionDTO) {
         if(batchRepository.existsById(sessionDTO.getBatchId())) {
             Session session = sessionMapper.toSession(sessionDTO);
             Batch batchReference = entityManager.getReference(Batch.class, sessionDTO.getBatchId());
@@ -64,12 +64,12 @@ public class SessionServiceImpl implements SessionService {
         throw new CustomEntityNotFoundExceptionDTO("Session with id : " + sessionId + " not Found");
     }
 
-    @Override
-    public SessionDTO updateSession(SessionDTO sessionDTO){
-        if(sessionRepository.existsById(sessionDTO.getSessionId())) {
-            Session session = sessionMapper.toSession(sessionDTO);
-            return sessionMapper.toSessionDTO(sessionRepository.saveAndFlush(session));
-        }
-        throw new CustomEntityNotFoundExceptionDTO("Session with id : " + sessionDTO.getSessionId() + " not Found");
-    }
+//    @Override
+//    public SessionDTO updateSession(SessionDTO sessionDTO){
+//        if(sessionRepository.existsById(sessionDTO.getSessionId())) {
+//            Session session = sessionMapper.toSession(sessionDTO);
+//            return sessionMapper.toSessionDTO(sessionRepository.saveAndFlush(session));
+//        }
+//        throw new CustomEntityNotFoundExceptionDTO("Session with id : " + sessionDTO.getSessionId() + " not Found");
+//    }
 }
