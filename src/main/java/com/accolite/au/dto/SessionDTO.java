@@ -1,16 +1,32 @@
 package com.accolite.au.dto;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class SessionDTO {
     private int sessionId;
     private int batchId;
+
+    @NotNull(message = "sessionName Should be provided")
     private String sessionName;
     private String classroomTopicId;
+
+    @NotNull(message = "startDate Should be provided")
     private Date startDate;
+
+    @NotNull(message = "endDate Should be provided")
     private Date endDate;
     private Timestamp createdOn;
+    private String daySlot;
+
+    public String getDaySlot() {
+        return daySlot;
+    }
+
+    public void setDaySlot(String daySlot) {
+        this.daySlot = daySlot;
+    }
 
     public int getSessionId() {
         return sessionId;

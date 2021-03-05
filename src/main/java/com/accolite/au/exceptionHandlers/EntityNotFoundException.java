@@ -11,8 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class EntityNotFoundException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomEntityNotFoundExceptionDTO.class)
-    public final ResponseEntity<CustomEntityNotFoundExceptionDTO> handleAllExceptions(CustomEntityNotFoundExceptionDTO ex) {
-        CustomEntityNotFoundExceptionDTO customEntityNotFoundExceptionDTO = new CustomEntityNotFoundExceptionDTO(ex.getMessage());
+    public final ResponseEntity<CustomEntityNotFoundExceptionDTO> handleAllExceptions(CustomEntityNotFoundExceptionDTO customEntityNotFoundExceptionDTO) {
         System.out.println(customEntityNotFoundExceptionDTO);
         return new ResponseEntity(customEntityNotFoundExceptionDTO, HttpStatus.NOT_FOUND);
     }

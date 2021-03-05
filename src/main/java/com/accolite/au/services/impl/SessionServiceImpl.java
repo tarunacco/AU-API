@@ -4,6 +4,7 @@ import com.accolite.au.dto.*;
 import com.accolite.au.mappers.SessionMapper;
 import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
+import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.SessionRepository;
 import com.accolite.au.services.SessionService;
 import org.springframework.http.HttpStatus;
@@ -15,35 +16,60 @@ import java.util.List;
 @Service
 public class SessionServiceImpl implements SessionService {
     private final SessionRepository sessionRepository;
+    private final BatchRepository batchRepository;
     private final SessionMapper sessionMapper;
     private final EntityManager entityManager;
 
-    public SessionServiceImpl(SessionRepository sessionRepository, SessionMapper sessionMapper, EntityManager entityManager) {
+    public SessionServiceImpl(SessionRepository sessionRepository, BatchRepository batchRepository, SessionMapper sessionMapper, EntityManager entityManager) {
         this.sessionRepository = sessionRepository;
+        this.batchRepository = batchRepository;
         this.sessionMapper = sessionMapper;
         this.entityManager = entityManager;
     }
 
-
     @Override
-    public SuccessResponseDTO deleteSession(int SessionId){
-        if(sessionRepository.existsById(SessionId)){
-            sessionRepository.deleteById(SessionId);
-            return new SuccessResponseDTO("Session with id : " + SessionId + " deleted Successfully", HttpStatus.OK);
+    public SuccessResponseDTO deleteSession(int sessionId){
+        if(sessionRepository.existsById(sessionId)){
+            sessionRepository.deleteById(sessionId);
+            return new SuccessResponseDTO("Session with id : " + sessionId + " deleted Successfully", HttpStatus.OK);
         }
-        throw new CustomEntityNotFoundExceptionDTO("Session with id : " + SessionId + " not Found");
+        throw new CustomEntityNotFoundExceptionDTO("Session with id : " + sessionId + " not Found");
     }
 
 
     @Override
-    public void addSession(SessionDTO sessionDTO) {
-        Session session = sessionMapper.toSession(sessionDTO);
-        Batch batchReference = entityManager.getReference(Batch.class, sessionDTO.getBatchId());
-        session.setBatch(batchReference);
-        sessionRepository.save(session);
+    public SessionDTO addSession(SessionDTO sessionDTO) {
+        if(batchRepository.existsById(sessionDTO.getBatchId())) {
+            Session session = sessionMapper.toSession(sessionDTO);
+            Batch batchReference = entityManager.getReference(Batch.class, sessionDTO.getBatchId());
+            session.setBatch(batchReference);
+            return sessionMapper.toSessionDTO(sessionRepository.saveAndFlush(session));
+        }
+        throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + sessionDTO.getBatchId() + " not Found");
     }
 
-    public List<SessionDTO> getSessions(Integer batchId) {
-        return sessionMapper.toSessionDTOs(this.sessionRepository.findAllByBatch_BatchId(batchId));
+    @Override
+    public List<SessionDTO> getAllSessions(int batchId) {
+        if(batchRepository.existsById(batchId)) {
+            return sessionMapper.toSessionDTOs(sessionRepository.findAllByBatch_BatchIdOrderByStartDateAscDaySlotDesc(batchId));
+        }
+        throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
+    }
+
+    @Override
+    public SessionDTO getSession(int sessionId) {
+        if (sessionRepository.existsById(sessionId)) {
+            return sessionMapper.toSessionDTO(sessionRepository.getOne(sessionId));
+        }
+        throw new CustomEntityNotFoundExceptionDTO("Session with id : " + sessionId + " not Found");
+    }
+
+    @Override
+    public SessionDTO updateSession(SessionDTO sessionDTO){
+        if(sessionRepository.existsById(sessionDTO.getSessionId())) {
+            Session session = sessionMapper.toSession(sessionDTO);
+            return sessionMapper.toSessionDTO(sessionRepository.saveAndFlush(session));
+        }
+        throw new CustomEntityNotFoundExceptionDTO("Session with id : " + sessionDTO.getSessionId() + " not Found");
     }
 }

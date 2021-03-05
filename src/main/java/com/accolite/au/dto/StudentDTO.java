@@ -1,29 +1,25 @@
-package com.accolite.au.models;
+package com.accolite.au.dto;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity
-public class Student implements Serializable {
-    @Id // primary key
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class StudentDTO {
     private int studentId;
+    private int batchId;
 
-    @ManyToOne
-    @JoinColumn(name = "batch_id")
-    private Batch batch;
-
+    @NotNull(message = "firstName Should be provided")
     private String firstName;
+
+    @NotNull(message = "lastName Should be provided")
     private String lastName;
+
     private String skypeId;
+
+    @Email
+    @NotNull(message = "emailId Should be provided")
     private String emailId;
 
-    @CreationTimestamp
     private Timestamp createdOn;
 
     public int getStudentId() {
@@ -34,12 +30,12 @@ public class Student implements Serializable {
         this.studentId = studentId;
     }
 
-    public Batch getBatch() {
-        return batch;
+    public int getBatchId() {
+        return batchId;
     }
 
-    public void setBatch(Batch batch) {
-        this.batch = batch;
+    public void setBatchId(int batchId) {
+        this.batchId = batchId;
     }
 
     public String getFirstName() {

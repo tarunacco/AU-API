@@ -1,40 +1,24 @@
-package com.accolite.au.models;
+package com.accolite.au.dto;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity
-public class Trainer implements Serializable {
-    @Id // primary key
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class TrainerDTO {
     private int trainerId;
-
-    @ManyToOne
-    @JoinColumn(name = "batch_id")
-    private Batch batch;
-
-    @OneToOne(targetEntity = BusinessUnit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private BusinessUnit businessUnit;
-
-    @NotNull(message = "trainerName Should be provided")
+    private int businessUnitId;
+    private int batchId;
     private String trainerName;
-
-    private String skypeId = "";
-
-    @Email(message = "Provide a valid Email")
+    private String skypeId;
     private String reportingManagerEmailId;
-
-    @Email(message = "Provide a valid Email")
     private String emailId;
-
-    @CreationTimestamp
     private Timestamp createdOn;
 
+    public int getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(int batchId) {
+        this.batchId = batchId;
+    }
     public int getTrainerId() {
         return trainerId;
     }
@@ -43,20 +27,12 @@ public class Trainer implements Serializable {
         this.trainerId = trainerId;
     }
 
-    public Batch getBatch() {
-        return batch;
+    public int getBusinessUnitId() {
+        return businessUnitId;
     }
 
-    public void setBatch(Batch batch) {
-        this.batch = batch;
-    }
-
-    public BusinessUnit getBusinessUnit() {
-        return businessUnit;
-    }
-
-    public void setBusinessUnit(BusinessUnit businessUnit) {
-        this.businessUnit = businessUnit;
+    public void setBusinessUnitId(int businessUnitId) {
+        this.businessUnitId = businessUnitId;
     }
 
     public String getTrainerName() {
@@ -98,4 +74,5 @@ public class Trainer implements Serializable {
     public void setCreatedOn(Timestamp createdOn) {
         this.createdOn = createdOn;
     }
+
 }

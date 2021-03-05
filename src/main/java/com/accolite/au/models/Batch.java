@@ -16,7 +16,6 @@ public class Batch implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int batchId;
 
-    @NotNull(message = "batchName Should be provided")
     private String batchName;
     private String commonSkypeId;
     private String commonClassroomId;
@@ -27,10 +26,11 @@ public class Batch implements Serializable {
     @OneToMany(targetEntity = Session.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Session> sessions = new HashSet<>();
 
-    @NotNull(message = "startDate Should be provided")
+    @OneToMany(targetEntity = Trainer.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Trainer> trainers = new HashSet<>();
+
     private Date startDate;
 
-    @NotNull(message = "endDate Should be provided")
     private Date endDate;
 
     @CreationTimestamp

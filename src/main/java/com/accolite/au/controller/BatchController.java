@@ -1,13 +1,8 @@
 package com.accolite.au.controller;
 
 import com.accolite.au.dto.BatchDTO;
-import com.accolite.au.dto.BatchResponseDTO;
-import com.accolite.au.dto.SessionListResponseDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
-import com.accolite.au.models.Batch;
-import com.accolite.au.models.Session;
 import com.accolite.au.services.BatchService;
-import com.accolite.au.services.SessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,20 +19,28 @@ public class BatchController {
         this.batchService = batchService;
     }
 
-    @PostMapping()
-    public void addBatch(@Valid @RequestBody BatchDTO batch) {
-        batchService.addBatch(batch);
+    @PostMapping({"/add"})
+    public ResponseEntity<BatchDTO> addBatch(@Valid @RequestBody BatchDTO batch) {
+        return new ResponseEntity(batchService.addBatch(batch), HttpStatus.CREATED);
     }
 
-    @GetMapping("all")
-    public List<BatchDTO> getAllBatches(){
-        return batchService.getAllBatches();
+    @PutMapping({"/update"})
+    public ResponseEntity<BatchDTO> updateBatch(@Valid @RequestBody BatchDTO batch) {
+        return new ResponseEntity(batchService.updateBatch(batch), HttpStatus.CREATED);
     }
 
+    @GetMapping({"/all"})
+    public ResponseEntity<List<BatchDTO>> getAllBatches(){
+        return new ResponseEntity(batchService.getAllBatches(), HttpStatus.OK);
+    }
 
-    @DeleteMapping({"/deleteBatch/{batchId}"})
+    @GetMapping({"/{batchId}"})
+    public ResponseEntity<BatchDTO> getBatch(@PathVariable(required = true, name = "batchId") int batchId){
+        return new ResponseEntity(batchService.getBatch(batchId), HttpStatus.OK);
+    }
+
+    @DeleteMapping({"/{batchId}"})
     public ResponseEntity<SuccessResponseDTO> deleteBatch(@PathVariable(required = true, name="batchId") int batchId){
         return new ResponseEntity(batchService.deleteBatch(batchId), HttpStatus.OK);
     }
-
 }

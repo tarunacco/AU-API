@@ -1,14 +1,22 @@
 package com.accolite.au.dto;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class BatchDTO {
     private int batchId;
+
+    @NotNull(message = "batchName Should be provided")
     private String batchName;
+
     private String commonSkypeId;
     private String commonClassroomId;
+
+    @NotNull(message = "startDate Should be provided")
     private Date startDate;
+
+    @NotNull(message = "endDate Should be provided")
     private Date endDate;
     private Timestamp createdOn;
 

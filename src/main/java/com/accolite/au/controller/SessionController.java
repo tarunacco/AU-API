@@ -2,35 +2,44 @@ package com.accolite.au.controller;
 
 import com.accolite.au.dto.SessionDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
-import com.accolite.au.services.BatchService;
 import com.accolite.au.services.SessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/session")
 public class SessionController {
-    private final BatchService batchService;
     private final SessionService sessionService;
 
-    public SessionController(BatchService batchService, SessionService sessionService) {
-        this.batchService = batchService;
+    public SessionController(SessionService sessionService) {
         this.sessionService = sessionService;
     }
 
-    @GetMapping
-    public List<SessionDTO> getSessions(@RequestParam Integer batchId) {
-        return this.sessionService.getSessions(batchId);
+    @PostMapping({"/add"})
+    public ResponseEntity<SessionDTO> addSession(@Valid @RequestBody SessionDTO sessionDTO) {
+        return new ResponseEntity(sessionService.addSession(sessionDTO), HttpStatus.CREATED);
     }
 
-    @PostMapping public void addSession(@RequestBody SessionDTO sessionDTO) {
-        sessionService.addSession(sessionDTO);
+    @PutMapping({"/update"})
+    public ResponseEntity<SessionDTO> updateSession(@Valid @RequestBody SessionDTO sessionDTO) {
+        return new ResponseEntity(sessionService.updateSession(sessionDTO), HttpStatus.CREATED);
     }
 
-    @DeleteMapping({"/deleteSession/{sessionId}"})
+    @GetMapping({"/all"})
+    public ResponseEntity<List<SessionDTO>> getAllSessions(@RequestParam(required = true, name = "batchId") int batchId){
+        return new ResponseEntity(sessionService.getAllSessions(batchId), HttpStatus.OK);
+    }
+
+    @GetMapping({"/{sessionId}"})
+    public ResponseEntity<SessionDTO> getSession(@PathVariable(required = true, name = "sessionId") int sessionId){
+        return new ResponseEntity(sessionService.getSession(sessionId), HttpStatus.OK);
+    }
+
+    @DeleteMapping({"/{sessionId}"})
     public ResponseEntity<SuccessResponseDTO> deleteSession(@PathVariable(required = true, name="sessionId") int sessionId){
         return new ResponseEntity(sessionService.deleteSession(sessionId), HttpStatus.OK);
     }
