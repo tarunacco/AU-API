@@ -11,6 +11,5 @@ import java.util.Set;
 
 public interface SessionRepository extends JpaRepository<Session, Integer> {
 
-    @Query("SELECT s.classroomTopicId, s.sessionId FROM Session s WHERE s.batch.batchId = :batchId")
-    public Set<Session> findByBatchId(@Param("batchId") Integer batchId);
+    List<Session> findAllByBatch_BatchId(int batchId);
 }

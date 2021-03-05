@@ -1,13 +1,15 @@
 package com.accolite.au.services.impl;
 
-import com.accolite.au.dto.*;
+import com.accolite.au.dto.BatchDTO;
+import com.accolite.au.dto.BatchResponseDTO;
+import com.accolite.au.dto.CustomEntityNotFoundExceptionDTO;
+import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.mappers.BatchMapper;
 import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
 import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.SessionRepository;
 import com.accolite.au.services.BatchService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,17 @@ import java.util.List;
 
 
 @Service
-@RequiredArgsConstructor
 public class BatchServiceImpl implements BatchService {
+
     private final BatchRepository batchRepository;
     private final SessionRepository sessionRepository;
     private final BatchMapper batchMapper;
+
+    public BatchServiceImpl(BatchRepository batchRepository, SessionRepository sessionRepository, BatchMapper batchMapper) {
+        this.batchRepository = batchRepository;
+        this.sessionRepository = sessionRepository;
+        this.batchMapper = batchMapper;
+    }
 
     @Override
     public BatchResponseDTO addBatch(BatchDTO batchDTO) {
@@ -32,7 +40,6 @@ public class BatchServiceImpl implements BatchService {
     public List<BatchDTO> getAllBatches(){
         List<Batch> batches = batchRepository.findAll();
         return batchMapper.toBatchDTOs(batches);
-        //return new BatchListResponseDTO(batchRepository.findAll(), HttpStatus.OK);
     }
 
     @Override

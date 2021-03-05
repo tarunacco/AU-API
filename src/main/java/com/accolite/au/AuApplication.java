@@ -9,14 +9,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 @SpringBootApplication
 public class AuApplication {
-
-    private static ApplicationProperties applicationProperties;
-
     public static void main(String[] args) {
-        String serverUrl = applicationProperties.getPropertyData("server.port");
-
-        System.out.println("Starting AU Management Application on port : " + serverUrl);
         SpringApplication.run(AuApplication.class, args);
-        System.out.println("Started AU Management Application on port : " + serverUrl);
     }
 }

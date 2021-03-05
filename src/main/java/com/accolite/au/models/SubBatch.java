@@ -1,11 +1,8 @@
 package com.accolite.au.models;
 
-import lombok.Data;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 
-@Data
 public class SubBatch {
     private int batchId;
     private String batchName, commonSkypeId, commonClassroomId;

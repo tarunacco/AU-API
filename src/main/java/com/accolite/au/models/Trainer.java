@@ -1,17 +1,13 @@
 package com.accolite.au.models;
 
-import lombok.Data;
-import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Data
 @Entity
 public class Trainer implements Serializable {
     @Id // primary key
