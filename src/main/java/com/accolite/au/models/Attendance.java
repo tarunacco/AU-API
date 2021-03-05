@@ -15,10 +15,9 @@ public class Attendance {
     // Composite Key
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="attendance_id")
     private int attendaceId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name="attendance_id", nullable = false)
     private Session session;

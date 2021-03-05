@@ -49,11 +49,11 @@ public class BatchController {
         return new ResponseEntity(batchService.deleteBatch(batchId), HttpStatus.OK);
     }
 
-    @PostMapping({"/addSession/{batchId}"})
+    @PostMapping({"/addSessionToBatch/{batchId}"})
     public ResponseEntity<Session> addSessionToBatch(@PathVariable(required = true, name="batchId") int batchId, @Valid @RequestBody Session session){
-        //Session tempSession = sessionService.addSession(batchId, session);
-        System.out.println(session);
+        System.out.println("hola"+session);
         Session tempSession = batchService.addSessionToBatch(batchId, session);
+        System.out.println("Heelo"+tempSession);
         return new ResponseEntity(tempSession, HttpStatus.CREATED);
     }
 

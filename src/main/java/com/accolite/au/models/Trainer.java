@@ -19,7 +19,7 @@ public class Trainer implements Serializable {
     private int trainerId;
 
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = BusinessUnit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private BusinessUnit businessUnit;
 
     @NotNull(message = "trainerName Should be provided")

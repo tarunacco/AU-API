@@ -76,10 +76,12 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public Session addSessionToBatch(int batchId, Session session){
-        batchRepository.findById(batchId).map(batch -> {
+        Session tempSession = batchRepository.findById(batchId).map(batch -> {
+            System.out.println(batch);
             session.setBatch(batch);
-            return sessionRepository.save(session);
+            return sessionRepository.saveAndFlush(session);
         }).orElseThrow(() -> new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found"));
-        return null;
+        System.out.println("Hello" + tempSession);
+        return tempSession;
     }
 }

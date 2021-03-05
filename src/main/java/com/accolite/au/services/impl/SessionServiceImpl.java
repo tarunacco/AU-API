@@ -18,20 +18,23 @@ public class SessionServiceImpl implements SessionService {
     private final SessionRepository sessionRepository;
     private final BatchRepository batchRepository;
 
-    @Override
-    public Session addSession(int batchId, Session session) {
-        session.setBatch(batchRepository.getOne(batchId));
-        Session tempSession = sessionRepository.saveAndFlush(session);
-        System.out.println(tempSession);
-        return tempSession;
-    }
+//    @Override
+//    public Session addSession(int batchId, Session session) {
+//        session.setBatch(batchRepository.getOne(batchId));
+//        Session tempSession = sessionRepository.saveAndFlush(session);
+//        System.out.println(tempSession);
+//        return tempSession;
+//    }
 
     @Override
     public SessionListResponseDTO getAllSessions(int batchId){
-        if(batchRepository.existsById(batchId)) {
-            return new SessionListResponseDTO(batchRepository.getOne(batchId).getSessions(), HttpStatus.OK);
-        }
-        throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
+        System.out.println(batchId);
+        return new SessionListResponseDTO(sessionRepository.findByBatchId(batchId), HttpStatus.OK);
+        
+//        if(batchRepository.existsById(batchId)) {
+//            return new SessionListResponseDTO(batchRepository.getOne(batchId).getSessions(), HttpStatus.OK);
+//        }
+//        throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
     }
 
     @Override

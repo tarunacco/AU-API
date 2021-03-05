@@ -18,6 +18,7 @@ public class SessionListResponseDTO {
     private int total_sessions_count;
 
     public SessionListResponseDTO(Set<Session> sessions, HttpStatus status) {
+        System.out.println(sessions);
         this.sessions = sessions;
         this.status = status;
         this.total_sessions_count = sessions.size();

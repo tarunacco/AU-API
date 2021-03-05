@@ -1,10 +1,7 @@
 package com.accolite.au.models;
 
 import com.accolite.au.dto.BatchResponseDTO;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,14 +16,20 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @RequiredArgsConstructor
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "sessionId")
-
 public class Session implements Serializable {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int sessionId;
+
+    @ManyToOne
+    @JoinColumn(name = "batch_id")
+    private Batch batch;
+
+    @JsonBackReference
+    @JsonIgnore
+    public Batch getBatch(){
+        return batch;
+    }
 
     @NotNull(message = "sessionName Should be provided")
     private String sessionName;
@@ -38,12 +41,6 @@ public class Session implements Serializable {
 
     @NotNull(message = "endDate Should be provided")
     private Date endDate;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "batch_fk")
-//    @JsonIgnore
-    @JsonBackReference
-    private Batch batch;
 
     @CreationTimestamp
     private Timestamp createdOn;

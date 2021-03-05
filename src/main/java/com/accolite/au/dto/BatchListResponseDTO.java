@@ -12,14 +12,13 @@ import java.util.List;
 
 @Data
 public class BatchListResponseDTO {
-    public List<Batch> batches;
+    private List<Batch> batches;
     private Timestamp timestamp;
     private HttpStatus status;
     private int total_batch_count;
 
     public BatchListResponseDTO(List<Batch> batches, HttpStatus status) {
         this.batches = batches;
-        System.out.println(batches);
         this.status = status;
         this.total_batch_count = batches.size();
         this.timestamp = new Timestamp(new Date().getTime());

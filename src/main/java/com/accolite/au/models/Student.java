@@ -16,20 +16,19 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "studentId")
-
 public class Student implements Serializable {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int studentId;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "batch_fk")
-//    @JsonIgnore
-    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "batch_id")
     private Batch batch;
+
+    @JsonBackReference
+    public Batch getBatch(){
+        return batch;
+    }
 
     @NotNull(message = "firstName Should be provided")
     private String firstName;

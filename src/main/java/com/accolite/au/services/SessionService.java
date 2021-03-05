@@ -7,7 +7,7 @@ import com.accolite.au.models.Session;
 
 public interface SessionService {
 
-    Session addSession(int batchId, Session session);
+//    Session addSession(int batchId, Session session);
 
     SessionListResponseDTO getAllSessions(int SessionId);
 

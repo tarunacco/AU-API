@@ -1,6 +1,7 @@
 package com.accolite.au.models;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 
 @Data // Lombok takes care of the getters and setters and .toString() automatically
 @Entity
+@RequiredArgsConstructor
 public class BusinessUnit implements Serializable {
     @Id // --> primary key
     @GeneratedValue(strategy = GenerationType.AUTO) // --> auto generated key

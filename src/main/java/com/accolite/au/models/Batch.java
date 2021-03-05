@@ -1,9 +1,6 @@
 package com.accolite.au.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +20,6 @@ import java.util.Set;
 @Data
 @Entity
 @RequiredArgsConstructor
-
-//@JsonIgnoreProperties(
-//        value = {"students", "sessions"},
-//        allowGetters = true
-//)
-
 public class Batch implements Serializable {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,17 +31,23 @@ public class Batch implements Serializable {
 
     private String commonSkypeId, commonClassroomId;
 
-    // @JsonSerialize(using = CustomSessionListSerializer.class)
-
-    @OneToMany(mappedBy = "batch", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column(nullable = true)
-    @JsonManagedReference
+    @OneToMany(targetEntity = Student.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
 
-    @OneToMany(mappedBy = "batch", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column(nullable = true)
     @JsonManagedReference
+    @JsonIgnore
+    public Set<Student> getStudents(){
+        return students;
+    }
+
+    @OneToMany(targetEntity = Session.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Session> sessions = new HashSet<>();
+
+    @JsonManagedReference
+    @JsonIgnore
+    public Set<Session> getSessions(){
+        return sessions;
+    }
 
     @NotNull(message = "startDate Should be provided")
     private Date startDate;
