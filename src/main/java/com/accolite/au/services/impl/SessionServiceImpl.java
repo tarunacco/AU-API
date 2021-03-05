@@ -8,15 +8,14 @@ import com.accolite.au.models.Session;
 import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.SessionRepository;
 import com.accolite.au.services.SessionService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+
 @Service
-@RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
-    private final SessionRepository sessionRepository;
-    private final BatchRepository batchRepository;
+    private SessionRepository sessionRepository;
+    private BatchRepository batchRepository;
 
 //    @Override
 //    public Session addSession(int batchId, Session session) {

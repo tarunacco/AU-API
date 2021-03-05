@@ -5,7 +5,6 @@ import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
 import com.accolite.au.services.BatchService;
 import com.accolite.au.services.SessionService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,9 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/session")
-@RequiredArgsConstructor
 public class SessionController {
-    private final BatchService batchService;
-    private final SessionService sessionService;
+    private BatchService batchService;
+    private SessionService sessionService;
 
     @GetMapping({"/getSession"})
     public ResponseEntity<SessionResponseDTO> getSession(@RequestParam(required = true, name="sessionId") int sessionId){

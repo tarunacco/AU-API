@@ -1,7 +1,6 @@
 package com.accolite.au.exceptionHandlers;
 
 import com.accolite.au.dto.ExceptionDetailsDTO;
-import lombok.SneakyThrows;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

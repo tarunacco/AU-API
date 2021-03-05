@@ -1,15 +1,10 @@
 package com.accolite.au.models;
 
-import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
-@Data
 @Entity
 public class Attendance {
     // Composite Key
@@ -28,4 +23,36 @@ public class Attendance {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public int getAttendaceId() {
+        return attendaceId;
+    }
+
+    public void setAttendaceId(int attendaceId) {
+        this.attendaceId = attendaceId;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Timestamp getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
+    }
 }

@@ -1,19 +1,15 @@
 package com.accolite.au.models;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Data // Lombok takes care of the getters and setters and .toString() automatically
+//@Data  Lombok takes care of the getters and setters and .toString() automatically
 @Entity
-@RequiredArgsConstructor
 public class BusinessUnit implements Serializable {
     @Id // --> primary key
     @GeneratedValue(strategy = GenerationType.AUTO) // --> auto generated key
@@ -30,4 +26,44 @@ public class BusinessUnit implements Serializable {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public int getBuId() {
+        return buId;
+    }
+
+    public void setBuId(int buId) {
+        this.buId = buId;
+    }
+
+    public String getBuName() {
+        return buName;
+    }
+
+    public void setBuName(String buName) {
+        this.buName = buName;
+    }
+
+    public String getBuHeadName() {
+        return buHeadName;
+    }
+
+    public void setBuHeadName(String buHeadName) {
+        this.buHeadName = buHeadName;
+    }
+
+    public String getBuHeadEmail() {
+        return buHeadEmail;
+    }
+
+    public void setBuHeadEmail(String buHeadEmail) {
+        this.buHeadEmail = buHeadEmail;
+    }
+
+    public Timestamp getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
+    }
 }

@@ -1,11 +1,9 @@
 package com.accolite.au.dto;
 
-import lombok.Data;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 
-@Data
+
 public class BatchDTO {
     private int batchId;
     private String batchName;

@@ -7,6 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface SessionMapper {
-
+    @Mapping(source = "batchId", target = "batch.batchId")
     Session toSession(SessionDTO sessionDto);
 }

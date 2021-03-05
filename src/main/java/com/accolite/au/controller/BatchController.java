@@ -5,8 +5,6 @@ import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
 import com.accolite.au.services.BatchService;
 import com.accolite.au.services.SessionService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/batch")
-@RequiredArgsConstructor
 public class BatchController {
-    private final BatchService batchService;
-    private final SessionService sessionService;
+    private BatchService batchService;
+    private SessionService sessionService;
 
     @PostMapping({"/addBatch"})
     public ResponseEntity<BatchResponseDTO> addBatch(@Valid @RequestBody BatchDTO batch) {
