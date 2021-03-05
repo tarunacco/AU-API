@@ -15,8 +15,8 @@ public class AuApplication {
     public static void main(String[] args) {
         String serverUrl = applicationProperties.getPropertyData("server.port");
 
-        System.out.println("Starting Order Management FullStack Application on port : " + serverUrl);
+        System.out.println("Starting AU Management Application on port : " + serverUrl);
         SpringApplication.run(AuApplication.class, args);
-        System.out.println("Started Order Management FullStack Application on port : " + serverUrl);
+        System.out.println("Started AU Management Application on port : " + serverUrl);
     }
 }

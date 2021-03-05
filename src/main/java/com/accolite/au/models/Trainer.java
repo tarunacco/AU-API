@@ -1,25 +1,37 @@
 package com.accolite.au.models;
 
 import lombok.Data;
+import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
 @Entity
-public class Trainer {
+public class Trainer implements Serializable {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "trainer_id")
     private int trainerId;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bu_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private BusinessUnit businessUnit;
 
-    private String trainerName, skypeId, emailId, reportingManagerEmailId;
+    @NotNull(message = "trainerName Should be provided")
+    private String trainerName;
+
+    private String skypeId = "";
+
+    @Email(message = "Provide a valid Email")
+    private String reportingManagerEmailId;
+
+    @Email(message = "Provide a valid Email")
+    private String emailId;
 
     @CreationTimestamp
     private Timestamp createdOn;
