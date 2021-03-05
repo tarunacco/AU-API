@@ -1,9 +1,6 @@
 package com.accolite.au.controller;
 
-import com.accolite.au.dto.BatchListResponseDTO;
-import com.accolite.au.dto.BatchResponseDTO;
-import com.accolite.au.dto.SessionListResponseDTO;
-import com.accolite.au.dto.SuccessResponseDTO;
+import com.accolite.au.dto.*;
 import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
 import com.accolite.au.services.BatchService;
@@ -25,7 +22,7 @@ public class BatchController {
     private final SessionService sessionService;
 
     @PostMapping({"/addBatch"})
-    public ResponseEntity<BatchResponseDTO> addBatch(@Valid @RequestBody Batch batch) {
+    public ResponseEntity<BatchResponseDTO> addBatch(@Valid @RequestBody BatchDTO batch) {
         return new ResponseEntity(batchService.addBatch(batch), HttpStatus.CREATED);
     }
 

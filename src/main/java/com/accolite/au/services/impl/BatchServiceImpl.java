@@ -1,6 +1,7 @@
 package com.accolite.au.services.impl;
 
 import com.accolite.au.dto.*;
+import com.accolite.au.mappers.BatchMapper;
 import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
 import com.accolite.au.repositories.BatchRepository;
@@ -10,22 +11,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class BatchServiceImpl implements BatchService {
     private final BatchRepository batchRepository;
     private final SessionRepository sessionRepository;
+    private final BatchMapper batchMapper;
 
     @Override
-    public BatchResponseDTO addBatch(Batch batch) {
+    public BatchResponseDTO addBatch(BatchDTO batchDTO) {
+        Batch batch = batchMapper.toBatch(batchDTO);
         Batch tempBatch = batchRepository.saveAndFlush(batch);
         return new BatchResponseDTO(batch, HttpStatus.CREATED);
     }
 
     @Override
-    public BatchListResponseDTO getAllBatches(){
-        return new BatchListResponseDTO(batchRepository.findAll(), HttpStatus.OK);
+    public List<BatchDTO> getAllBatches(){
+        List<Batch> batches = batchRepository.findAll();
+        return batchMapper.toBatchDTOs(batches);
+        //return new BatchListResponseDTO(batchRepository.findAll(), HttpStatus.OK);
     }
 
     @Override

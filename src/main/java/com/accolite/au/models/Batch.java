@@ -27,27 +27,14 @@ public class Batch implements Serializable {
 
     @NotNull(message = "batchName Should be provided")
     private String batchName;
-
-
-    private String commonSkypeId, commonClassroomId;
+    private String commonSkypeId;
+    private String commonClassroomId;
 
     @OneToMany(targetEntity = Student.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
 
-    @JsonManagedReference
-    @JsonIgnore
-    public Set<Student> getStudents(){
-        return students;
-    }
-
     @OneToMany(targetEntity = Session.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Session> sessions = new HashSet<>();
-
-    @JsonManagedReference
-    @JsonIgnore
-    public Set<Session> getSessions(){
-        return sessions;
-    }
 
     @NotNull(message = "startDate Should be provided")
     private Date startDate;
@@ -58,28 +45,7 @@ public class Batch implements Serializable {
     @CreationTimestamp
     private Timestamp createdOn;
 
-//    public Batch.SubBatch createSubBatchObject(Batch batch){
-//        return new SubBatch(batch.getBatchId(), batch.getBatchName(), batch.getCommonSkypeId(),
-//                batch.getCommonClassroomId(), batch.getStartDate(), batch.getEndDate(), batch.getCreatedOn());
-//    }
 
-//    @Data
-//    public static class SubBatch {
-//        private int batchId;
-//        private String batchName, commonSkypeId, commonClassroomId;
-//        private Date startDate, endDate;
-//        private Timestamp createdOn;
-//
-//        public SubBatch(int batchId, String batchName, String commonSkypeId, String commonClassroomId, Date startDate, Date endDate, Timestamp createdOn) {
-//            this.batchId = batchId;
-//            this.batchName = batchName;
-//            this.commonSkypeId = commonSkypeId;
-//            this.commonClassroomId = commonClassroomId;
-//            this.startDate = startDate;
-//            this.endDate = endDate;
-//            this.createdOn = createdOn;
-//        }
-//    }
 
 }
 

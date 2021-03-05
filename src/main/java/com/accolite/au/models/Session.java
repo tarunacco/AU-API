@@ -25,12 +25,6 @@ public class Session implements Serializable {
     @JoinColumn(name = "batch_id")
     private Batch batch;
 
-    @JsonBackReference
-    @JsonIgnore
-    public Batch getBatch(){
-        return batch;
-    }
-
     @NotNull(message = "sessionName Should be provided")
     private String sessionName;
 

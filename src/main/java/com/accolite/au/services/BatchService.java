@@ -1,15 +1,17 @@
 package com.accolite.au.services;
 
+import com.accolite.au.dto.BatchDTO;
 import com.accolite.au.dto.BatchResponseDTO;
-import com.accolite.au.dto.BatchListResponseDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
 
-public interface BatchService {
-    BatchResponseDTO addBatch(Batch batch);
+import java.util.List;
 
-    BatchListResponseDTO getAllBatches();
+public interface BatchService {
+    BatchResponseDTO addBatch(BatchDTO batch);
+
+    List<BatchDTO> getAllBatches();
 
     BatchResponseDTO getBatch(int batchId);
 
