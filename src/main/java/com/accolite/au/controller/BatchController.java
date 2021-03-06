@@ -54,6 +54,6 @@ public class BatchController {
     @PostMapping({"/sendMail"})
     public ResponseEntity<String> sendMail() throws IOException {
         mailerService.SendMockMail();
-        return new ResponseEntity("Mail Sent Successfully", HttpStatus.CREATED);
+        return new ResponseEntity("Mail Will Be Sent Soon!! We have initiated the process", HttpStatus.CREATED);
     }
 }

@@ -6,6 +6,8 @@ import com.accolite.au.mappers.BusinessUnitMapper;
 import com.accolite.au.mappers.SessionMapper;
 import com.accolite.au.repositories.BusinessUnitRepository;
 import com.accolite.au.services.MailerService;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

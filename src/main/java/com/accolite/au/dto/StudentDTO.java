@@ -77,4 +77,15 @@ public class StudentDTO {
     public void setCreatedOn(Timestamp createdOn) {
         this.createdOn = createdOn;
     }
+
+    public StudentDTO(){
+
+    }
+
+    public StudentDTO(String firstName, String lastName, String emailId, String skypeId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.skypeId = skypeId;
+        this.emailId = emailId;
+    }
 }

@@ -14,13 +14,13 @@ public interface SessionMapper {
     @Mappings({
             @Mapping(target = "batch", ignore = true),
             @Mapping(source = "sessionDto.batchId", target = "batch.batchId"),
-            @Mapping(source = "sessionDto.trainerId", target = "trainer.trainerId")
+            @Mapping(source = "sessionDto.trainer.trainerId", target = "trainer.trainerId")
     })
     Session toSession(SessionDTO sessionDto);
 
     @Mappings({
             @Mapping(source = "batch.batchId", target = "batchId"),
-            @Mapping(source = "trainer.trainerId", target = "trainerId")
+            @Mapping(source = "session.trainer", target = "trainer")
     })
     SessionDTO toSessionDTO(Session session);
 

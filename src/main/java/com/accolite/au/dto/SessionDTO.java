@@ -1,5 +1,7 @@
 package com.accolite.au.dto;
 
+import com.accolite.au.models.Trainer;
+
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -7,7 +9,7 @@ import java.sql.Timestamp;
 public class SessionDTO {
     private int sessionId;
     private int batchId;
-    private int trainerId = Integer.MIN_VALUE;
+    private TrainerDTO trainer;
 
     @NotNull(message = "sessionName Should be provided")
     private String sessionName;
@@ -23,12 +25,12 @@ public class SessionDTO {
     private Timestamp createdOn;
     private String daySlot;
 
-    public int getTrainerId() {
-        return trainerId;
+    public TrainerDTO getTrainer() {
+        return trainer;
     }
 
-    public void setTrainerId(int trainerId) {
-        this.trainerId = trainerId;
+    public void setTrainer(TrainerDTO trainer) {
+        this.trainer = trainer;
     }
 
     public String getDaySlot() {

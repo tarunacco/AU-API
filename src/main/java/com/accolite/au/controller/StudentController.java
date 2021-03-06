@@ -4,10 +4,13 @@ import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.dto.StudentDTO;
 import com.accolite.au.services.StudentService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,6 +25,12 @@ public class StudentController {
     @PostMapping({"/add"})
     public ResponseEntity<StudentDTO> addStudentToBatch(@Valid @RequestBody StudentDTO studentDTO) {
         return new ResponseEntity(studentService.addOrUpdateStudentToBatch(studentDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = {"/bulkAdd"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<SuccessResponseDTO> addBulkStudents(@RequestParam(name = "studentsFile") MultipartFile studentFile, @RequestParam(name="batchId") int batchId) throws IOException{
+        studentService.uploadFile(studentFile, batchId);
+        return new ResponseEntity(new SuccessResponseDTO("File will be uploaded soon, and you can refresh the page to see the updated data !!", HttpStatus.CREATED), HttpStatus.CREATED);
     }
 
     @PutMapping({"/update"})
