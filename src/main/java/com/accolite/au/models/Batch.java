@@ -36,6 +36,14 @@ public class Batch implements Serializable {
     @CreationTimestamp
     private Timestamp createdOn;
 
+    public Set<Trainer> getTrainers() {
+        return trainers;
+    }
+
+    public void setTrainers(Set<Trainer> trainers) {
+        this.trainers = trainers;
+    }
+
     public int getBatchId() {
         return batchId;
     }

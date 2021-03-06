@@ -10,8 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BusinessUnitMapper {
 
-//    @Mapping(target = "trainer", ignore = true)
-//    BusinessUnit toBusiness(BusinessUnitDTO businessUnitDTO);
+    BusinessUnit toBusinessUnit(BusinessUnitDTO businessUnitDTO);
 
     BusinessUnitDTO toBusinessUnitDTO(BusinessUnit businessUnit);
 

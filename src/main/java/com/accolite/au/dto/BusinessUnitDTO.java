@@ -1,12 +1,21 @@
 package com.accolite.au.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class BusinessUnitDTO {
     private int buId;
+
+    @NotNull(message = "BU Name Should be provided")
     private String buName;
+
+    @NotNull(message = "BU Head Name Should be provided")
     private String buHeadName;
+
+    @Email
     private String buHeadEmail;
+
     private Timestamp createdOn;
 
     public int getBuId() {

@@ -2,12 +2,7 @@ package com.accolite.au.models;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -17,13 +12,11 @@ public class BusinessUnit implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO) // --> auto generated key
     private int buId;
 
-    @NotNull(message = "BU Name Should be provided")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Trainer trainer;
+
     private String buName;
-
-    @NotNull(message = "BU Head Name Should be provided")
     private String buHeadName;
-
-    @Email
     private String buHeadEmail;
 
     @CreationTimestamp

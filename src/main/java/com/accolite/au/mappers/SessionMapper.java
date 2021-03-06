@@ -11,10 +11,17 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SessionMapper {
 
-    @Mappings({@Mapping(target = "batch", ignore = true), @Mapping(source = "sessionDto.batchId", target = "batch.batchId")})
+    @Mappings({
+            @Mapping(target = "batch", ignore = true),
+            @Mapping(source = "sessionDto.batchId", target = "batch.batchId"),
+            @Mapping(source = "sessionDto.trainerId", target = "trainer.trainerId")
+    })
     Session toSession(SessionDTO sessionDto);
 
-    @Mapping(source = "batch.batchId", target = "batchId")
+    @Mappings({
+            @Mapping(source = "batch.batchId", target = "batchId"),
+            @Mapping(source = "trainer.trainerId", target = "trainerId")
+    })
     SessionDTO toSessionDTO(Session session);
 
     List<SessionDTO> toSessionDTOs(List<Session> sessions);

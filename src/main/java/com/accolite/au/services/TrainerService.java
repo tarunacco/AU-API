@@ -3,17 +3,15 @@ package com.accolite.au.services;
 import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.dto.TrainerDTO;
 
-import java.util.List;
+import java.util.Set;
 
 public interface TrainerService {
 
-    TrainerDTO addTrainerToBatch(TrainerDTO trainerDTO);
+    TrainerDTO addToBatchOrUpdateTrainer(TrainerDTO trainerDTO);
 
-    List<TrainerDTO> getAllTrainers(int batchId);
+    Set<TrainerDTO> getAllTrainers(int batchId);
 
     TrainerDTO getTrainer(int trainerId);
 
     SuccessResponseDTO deleteTrainer(int trainerId);
-
-    TrainerDTO updateTrainer(TrainerDTO trainerDTO);
 }

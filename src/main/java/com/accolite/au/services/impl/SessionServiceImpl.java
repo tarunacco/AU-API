@@ -4,6 +4,7 @@ import com.accolite.au.dto.*;
 import com.accolite.au.mappers.SessionMapper;
 import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
+import com.accolite.au.models.Trainer;
 import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.SessionRepository;
 import com.accolite.au.services.SessionService;
@@ -42,7 +43,9 @@ public class SessionServiceImpl implements SessionService {
         if(batchRepository.existsById(sessionDTO.getBatchId())) {
             Session session = sessionMapper.toSession(sessionDTO);
             Batch batchReference = entityManager.getReference(Batch.class, sessionDTO.getBatchId());
+            Trainer trainerReference = entityManager.getReference(Trainer.class, sessionDTO.getTrainerId());
             session.setBatch(batchReference);
+            session.setTrainer(trainerReference);
             return sessionMapper.toSessionDTO(sessionRepository.saveAndFlush(session));
         }
         throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + sessionDTO.getBatchId() + " not Found");

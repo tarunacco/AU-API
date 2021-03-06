@@ -21,15 +21,15 @@ public class TrainerController {
 
     @PostMapping({"/add"})
     public ResponseEntity<TrainerDTO> addTrainerToBatch(@Valid @RequestBody TrainerDTO trainerDTO) {
-        return new ResponseEntity(trainerService.addTrainerToBatch(trainerDTO), HttpStatus.CREATED);
+        return new ResponseEntity(trainerService.addToBatchOrUpdateTrainer(trainerDTO), HttpStatus.CREATED);
     }
 
     @PutMapping({"/update"})
     public ResponseEntity<TrainerDTO> updateTrainer(@Valid @RequestBody TrainerDTO trainerDTO) {
-        return new ResponseEntity(trainerService.updateTrainer(trainerDTO), HttpStatus.CREATED);
+        return new ResponseEntity(trainerService.addToBatchOrUpdateTrainer(trainerDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping({"/all?batchId={batchId}"})
+    @GetMapping({"/all"})
     public ResponseEntity<List<TrainerDTO>> getAllTrainers(@RequestParam(required = true, name = "batchId") int batchId){
         return new ResponseEntity(trainerService.getAllTrainers(batchId), HttpStatus.OK);
     }

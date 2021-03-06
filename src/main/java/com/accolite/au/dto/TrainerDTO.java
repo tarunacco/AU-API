@@ -1,15 +1,25 @@
 package com.accolite.au.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class TrainerDTO {
     private int trainerId;
-    private int businessUnitId;
-    private int batchId;
+    private int businessUnitId = Integer.MIN_VALUE;
+    private int batchId = Integer.MIN_VALUE;
+
+    @NotNull(message = "trainerName Should be provided")
     private String trainerName;
+
     private String skypeId;
+
+    @Email(message = "Provide a valid Email")
     private String reportingManagerEmailId;
+
+    @Email(message = "Provide a valid Email")
     private String emailId;
+
     private Timestamp createdOn;
 
     public int getBatchId() {
@@ -75,4 +85,15 @@ public class TrainerDTO {
         this.createdOn = createdOn;
     }
 
+    public TrainerDTO(){
+
+    }
+    public TrainerDTO(int businessUnitId, int batchId, String trainerName, String skypeId, String reportingManagerEmailId, String emailId) {
+        this.businessUnitId = businessUnitId;
+        this.skypeId = skypeId;
+        this.batchId = batchId;
+        this.trainerName = trainerName;
+        this.reportingManagerEmailId = reportingManagerEmailId;
+        this.emailId = emailId;
+    }
 }

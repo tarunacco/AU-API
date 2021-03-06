@@ -17,6 +17,11 @@ public class Session {
     @JoinColumn(name = "batch_id")
     private Batch batch;
 
+    // 1 session will have 1 trainer
+    @OneToOne(targetEntity = Trainer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "trainerId")
+    private Trainer trainer;
+
     private String sessionName;
     private String classroomTopicId;
     private Date startDate;
@@ -25,6 +30,14 @@ public class Session {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
 
     public String getDaySlot() {
         return daySlot;

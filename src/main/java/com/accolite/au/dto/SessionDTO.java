@@ -7,9 +7,11 @@ import java.sql.Timestamp;
 public class SessionDTO {
     private int sessionId;
     private int batchId;
+    private int trainerId = Integer.MIN_VALUE;
 
     @NotNull(message = "sessionName Should be provided")
     private String sessionName;
+
     private String classroomTopicId;
 
     @NotNull(message = "startDate Should be provided")
@@ -17,8 +19,17 @@ public class SessionDTO {
 
     @NotNull(message = "endDate Should be provided")
     private Date endDate;
+
     private Timestamp createdOn;
     private String daySlot;
+
+    public int getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(int trainerId) {
+        this.trainerId = trainerId;
+    }
 
     public String getDaySlot() {
         return daySlot;
@@ -82,5 +93,13 @@ public class SessionDTO {
 
     public void setCreatedOn(Timestamp createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public SessionDTO(@NotNull(message = "sessionName Should be provided") String sessionName, String classroomTopicId, @NotNull(message = "startDate Should be provided") Date startDate, @NotNull(message = "endDate Should be provided") Date endDate, String daySlot) {
+        this.sessionName = sessionName;
+        this.classroomTopicId = classroomTopicId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.daySlot = daySlot;
     }
 }

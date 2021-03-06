@@ -19,17 +19,15 @@ public class Trainer implements Serializable {
     private Batch batch;
 
     @OneToOne(targetEntity = BusinessUnit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="buId")
     private BusinessUnit businessUnit;
 
-    @NotNull(message = "trainerName Should be provided")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Session session;
+
     private String trainerName;
-
-    private String skypeId = "";
-
-    @Email(message = "Provide a valid Email")
+    private String skypeId;
     private String reportingManagerEmailId;
-
-    @Email(message = "Provide a valid Email")
     private String emailId;
 
     @CreationTimestamp
