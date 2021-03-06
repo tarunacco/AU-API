@@ -30,8 +30,8 @@ public class TrainerController {
     }
 
     @GetMapping({"/all"})
-    public ResponseEntity<List<TrainerDTO>> getAllTrainers(@RequestParam(required = true, name = "batchId") int batchId){
-        return new ResponseEntity(trainerService.getAllTrainers(batchId), HttpStatus.OK);
+    public ResponseEntity<List<TrainerDTO>> getAllTrainers() {
+        return new ResponseEntity(trainerService.getAllTrainers(), HttpStatus.OK);
     }
 
     @GetMapping({"/{trainerId}"})

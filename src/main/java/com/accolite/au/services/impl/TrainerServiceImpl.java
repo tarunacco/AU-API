@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -33,24 +35,25 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public TrainerDTO addToBatchOrUpdateTrainer(TrainerDTO trainerDTO){
-        if(batchRepository.existsById(trainerDTO.getBatchId())) {
+        //if(batchRepository.existsById(trainerDTO.getBatchId())) {
             Trainer trainer = trainerMapper.toTrainer(trainerDTO);
-            Batch batchReference = entityManager.getReference(Batch.class, trainerDTO.getBatchId());
+            //Batch batchReference = entityManager.getReference(Batch.class, trainerDTO.getBatchId());
             BusinessUnit businessUnitReference = entityManager.getReference(BusinessUnit.class, trainerDTO.getBusinessUnitId());
-            trainer.setBatch(batchReference);
+            //trainer.setBatch(batchReference);
             trainer.setBusinessUnit(businessUnitReference);
             return trainerMapper.toTrainerDTO(trainerRepository.saveAndFlush(trainer));
-        }
-        throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + trainerDTO.getBatchId() + " not Found");
+        //}
+        //throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + trainerDTO.getBatchId() + " not Found");
     }
 
     @Override
-    public Set<TrainerDTO> getAllTrainers(int batchId){
-        if(batchRepository.existsById(batchId)) {
-            Set<Trainer> trainers = batchRepository.getOne(batchId).getTrainers();
-            return trainerMapper.toTrainerDTOsSet(trainers);
-        }
-        throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
+    public List<TrainerDTO> getAllTrainers(){
+//        if(batchRepository.existsById()) {
+////            Set<Trainer> trainers = batchRepository.getOne(batchId).getTrainers();
+////            return trainerMapper.toTrainerDTOsSet(trainers);
+//        }
+        //throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
+        return trainerMapper.toTrainerDTOs(trainerRepository.findAll());
     }
 
     @Override

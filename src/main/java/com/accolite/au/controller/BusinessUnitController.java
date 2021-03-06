@@ -33,7 +33,7 @@ public class BusinessUnitController {
     public ResponseEntity<List<BusinessUnitDTO>> getAllBusinessUnits(){
         return new ResponseEntity(businessUnitService.getAllBusinessUnits(), HttpStatus.OK);
     }
-
+    
     @GetMapping({"/{businessUnitId}"})
     public ResponseEntity<BusinessUnitDTO> getBusinessUnit(@PathVariable(required = true, name = "businessUnitId") int businessUnitId){
         return new ResponseEntity(businessUnitService.getBusinessUnit(businessUnitId), HttpStatus.OK);

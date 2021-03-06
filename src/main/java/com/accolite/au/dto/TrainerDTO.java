@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 public class TrainerDTO {
     private int trainerId;
-    private int businessUnitId = Integer.MIN_VALUE;
-    private int batchId = Integer.MIN_VALUE;
+    private int businessUnitId;
+    //private int batchId = Integer.MIN_VALUE;
 
     @NotNull(message = "trainerName Should be provided")
     private String trainerName;
@@ -22,13 +22,13 @@ public class TrainerDTO {
 
     private Timestamp createdOn;
 
-    public int getBatchId() {
-        return batchId;
-    }
-
-    public void setBatchId(int batchId) {
-        this.batchId = batchId;
-    }
+//    public int getBatchId() {
+//        return batchId;
+//    }
+//
+//    public void setBatchId(int batchId) {
+//        this.batchId = batchId;
+//    }
     public int getTrainerId() {
         return trainerId;
     }
@@ -91,7 +91,7 @@ public class TrainerDTO {
     public TrainerDTO(int businessUnitId, int batchId, String trainerName, String skypeId, String reportingManagerEmailId, String emailId) {
         this.businessUnitId = businessUnitId;
         this.skypeId = skypeId;
-        this.batchId = batchId;
+        //this.batchId = batchId;
         this.trainerName = trainerName;
         this.reportingManagerEmailId = reportingManagerEmailId;
         this.emailId = emailId;

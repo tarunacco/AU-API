@@ -43,9 +43,9 @@ public class SessionServiceImpl implements SessionService {
         if(batchRepository.existsById(sessionDTO.getBatchId())) {
             Session session = sessionMapper.toSession(sessionDTO);
             Batch batchReference = entityManager.getReference(Batch.class, sessionDTO.getBatchId());
-            Trainer trainerReference = entityManager.getReference(Trainer.class, sessionDTO.getTrainerId());
+            //Trainer trainerReference = entityManager.getReference(Trainer.class, sessionDTO.getTrainerId());
             session.setBatch(batchReference);
-            session.setTrainer(trainerReference);
+            //session.setTrainer(trainerReference);
             return sessionMapper.toSessionDTO(sessionRepository.saveAndFlush(session));
         }
         throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + sessionDTO.getBatchId() + " not Found");
