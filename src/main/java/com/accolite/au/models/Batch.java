@@ -26,8 +26,8 @@ public class Batch implements Serializable {
     @OneToMany(targetEntity = Session.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Session> sessions = new HashSet<>();
 
-    @OneToMany(targetEntity = Trainer.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Trainer> trainers = new HashSet<>();
+//    @OneToMany(targetEntity = Trainer.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<Trainer> trainers = new HashSet<>();
 
     private Date startDate;
 
@@ -36,13 +36,13 @@ public class Batch implements Serializable {
     @CreationTimestamp
     private Timestamp createdOn;
 
-    public Set<Trainer> getTrainers() {
-        return trainers;
-    }
-
-    public void setTrainers(Set<Trainer> trainers) {
-        this.trainers = trainers;
-    }
+//    public Set<Trainer> getTrainers() {
+//        return trainers;
+//    }
+//
+//    public void setTrainers(Set<Trainer> trainers) {
+//        this.trainers = trainers;
+//    }
 
     public int getBatchId() {
         return batchId;

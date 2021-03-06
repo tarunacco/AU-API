@@ -14,9 +14,9 @@ public class Trainer implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int trainerId;
 
-    @ManyToOne
-    @JoinColumn(name = "batch_id")
-    private Batch batch;
+//    @ManyToOne
+//    @JoinColumn(name = "batch_id")
+//    private Batch batch;
 
     @OneToOne(targetEntity = BusinessUnit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="buId")
@@ -41,13 +41,13 @@ public class Trainer implements Serializable {
         this.trainerId = trainerId;
     }
 
-    public Batch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(Batch batch) {
-        this.batch = batch;
-    }
+//    public Batch getBatch() {
+//        return batch;
+//    }
+//
+//    public void setBatch(Batch batch) {
+//        this.batch = batch;
+//    }
 
     public BusinessUnit getBusinessUnit() {
         return businessUnit;

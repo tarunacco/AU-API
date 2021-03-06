@@ -19,7 +19,7 @@ public class SessionDTO {
     @NotNull(message = "startDate Should be provided")
     private Date startDate;
 
-    @NotNull(message = "endDate Should be provided")
+	@NotNull(message = "endDate Should be provided")
     private Date endDate;
 
     private Timestamp createdOn;
