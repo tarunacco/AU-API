@@ -18,11 +18,11 @@ public class Trainer implements Serializable {
 //    @JoinColumn(name = "batch_id")
 //    private Batch batch;
 
-    @OneToOne(targetEntity = BusinessUnit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = BusinessUnit.class, fetch = FetchType.LAZY)
     @JoinColumn(name="buId")
     private BusinessUnit businessUnit;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     private Session session;
 
     private String trainerName;

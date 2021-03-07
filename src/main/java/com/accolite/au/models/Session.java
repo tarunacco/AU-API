@@ -18,7 +18,7 @@ public class Session {
     private Batch batch;
 
     // 1 session will have 1 trainer
-    @OneToOne(targetEntity = Trainer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Trainer.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "trainerId")
     private Trainer trainer;
 

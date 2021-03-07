@@ -151,7 +151,7 @@ public class MailerServiceImpl implements MailerService {
 
     @Override
     public void SendMockMail() throws IOException{
-        TrainerDTO trainerDTO = new TrainerDTO(2, 1, "Tarun", "tarun.k", "abhinav.sharma@accolitedigital.com", "abhinavsharma629@gmail.com");
+        //TrainerDTO trainerDTO = new TrainerDTO(2, 1, "Tarun", "tarun.k", "abhinav.sharma@accolitedigital.com", "abhinavsharma629@gmail.com");
         SessionDTO sessionDTO = new SessionDTO("Spring Boot", "123", Date.valueOf("1998-08-08"), Date.valueOf("1998-08-08"), "M");
 
         Properties props = this.getPropertyProps();
@@ -168,7 +168,7 @@ public class MailerServiceImpl implements MailerService {
                     }
                 });
 
-        this.composeAndSendMail(trainerDTO, sessionDTO, session);
+        //this.composeAndSendMail(trainerDTO, sessionDTO, session);
     }
 
     private void addAttachments(Multipart multipart, File dir) throws MessagingException {

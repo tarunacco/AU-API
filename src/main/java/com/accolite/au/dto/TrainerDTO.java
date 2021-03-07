@@ -1,13 +1,17 @@
 package com.accolite.au.dto;
 
+import com.accolite.au.models.BusinessUnit;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class TrainerDTO {
     private int trainerId;
-    private int businessUnitId;
+    //    private int businessUnitId;
     //private int batchId = Integer.MIN_VALUE;
+
+    private BusinessUnitDTO businessUnit;
 
     @NotNull(message = "trainerName Should be provided")
     private String trainerName;
@@ -22,7 +26,15 @@ public class TrainerDTO {
 
     private Timestamp createdOn;
 
-//    public int getBatchId() {
+    public BusinessUnitDTO getBusinessUnit() {
+        return businessUnit;
+    }
+
+    public void setBusinessUnit(BusinessUnitDTO businessUnit) {
+        this.businessUnit = businessUnit;
+    }
+
+    //    public int getBatchId() {
 //        return batchId;
 //    }
 //
@@ -37,13 +49,13 @@ public class TrainerDTO {
         this.trainerId = trainerId;
     }
 
-    public int getBusinessUnitId() {
-        return businessUnitId;
-    }
-
-    public void setBusinessUnitId(int businessUnitId) {
-        this.businessUnitId = businessUnitId;
-    }
+//    public int getBusinessUnitId() {
+//        return businessUnitId;
+//    }
+//
+//    public void setBusinessUnitId(int businessUnitId) {
+//        this.businessUnitId = businessUnitId;
+//    }
 
     public String getTrainerName() {
         return trainerName;
@@ -88,10 +100,9 @@ public class TrainerDTO {
     public TrainerDTO(){
 
     }
-    public TrainerDTO(int businessUnitId, int batchId, String trainerName, String skypeId, String reportingManagerEmailId, String emailId) {
-        this.businessUnitId = businessUnitId;
+    public TrainerDTO(BusinessUnitDTO businessUnit, String trainerName, String skypeId, String reportingManagerEmailId, String emailId) {
+        this.businessUnit = businessUnit;
         this.skypeId = skypeId;
-        //this.batchId = batchId;
         this.trainerName = trainerName;
         this.reportingManagerEmailId = reportingManagerEmailId;
         this.emailId = emailId;

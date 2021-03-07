@@ -38,7 +38,7 @@ public class TrainerServiceImpl implements TrainerService {
         //if(batchRepository.existsById(trainerDTO.getBatchId())) {
             Trainer trainer = trainerMapper.toTrainer(trainerDTO);
             //Batch batchReference = entityManager.getReference(Batch.class, trainerDTO.getBatchId());
-            BusinessUnit businessUnitReference = entityManager.getReference(BusinessUnit.class, trainerDTO.getBusinessUnitId());
+            BusinessUnit businessUnitReference = entityManager.getReference(BusinessUnit.class, trainerDTO.getBusinessUnit().getBuId());
             //trainer.setBatch(batchReference);
             trainer.setBusinessUnit(businessUnitReference);
             return trainerMapper.toTrainerDTO(trainerRepository.saveAndFlush(trainer));

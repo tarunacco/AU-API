@@ -13,6 +13,7 @@ import java.util.Set;
 public interface TrainerMapper {
 
     //@Mapping(target = "batch", ignore = true)
+    @Mapping(source = "trainerDTO.businessUnit.buId", target = "businessUnit.buId")
     Trainer toTrainer(TrainerDTO trainerDTO);
 
 //    @Mappings({
@@ -20,7 +21,7 @@ public interface TrainerMapper {
 //            @Mapping(source = "batch.batchId", target = "batchId")
 //    })
     
-    @Mapping(source = "businessUnit.buId", target = "businessUnitId")
+    @Mapping(source = "trainer.businessUnit", target = "businessUnit")
     TrainerDTO toTrainerDTO(Trainer trainer);
 
     
