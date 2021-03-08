@@ -89,7 +89,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         ArrayNode attendanceDataNode = mapper.createArrayNode();
 
-        for (Student student : attendanceRepository.findAllDistinctStudents()) {
+        for (Student student : studentRepository.findAll()) {
             List<String[]> tempSessions = attendanceRepository.findAllSessionsForStudent(student.getStudentId()); // [['session1', 'A'], ['session2', 'P']]
 
             ObjectNode tempEntity = mapper.createObjectNode();
