@@ -1,5 +1,7 @@
 package com.accolite.au.dto;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -95,11 +97,22 @@ public class SessionDTO {
         this.createdOn = createdOn;
     }
 
-    public SessionDTO(@NotNull(message = "sessionName Should be provided") String sessionName, String classroomTopicId, @NotNull(message = "startDate Should be provided") Date startDate, @NotNull(message = "endDate Should be provided") Date endDate, String daySlot) {
+    public SessionDTO(){
+
+    }
+
+    public SessionDTO(@NotNull(message = "sessionName Should be provided") String sessionName, String classroomTopicId, @NotNull(message = "startDate Should be provided") Date startDate, Date endDate, String daySlot) {
         this.sessionName = sessionName;
         this.classroomTopicId = classroomTopicId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.daySlot = daySlot;
+    }
+
+    public SessionDTO(int batchId, String sessionName, Date startDate, String daySlot, TrainerDTO trainerDTO) {
+        this.sessionName = sessionName;
+        this.startDate = startDate;
+        this.daySlot = daySlot;
+        this.trainer = trainerDTO;
     }
 }

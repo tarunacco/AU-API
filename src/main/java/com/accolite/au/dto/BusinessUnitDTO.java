@@ -57,4 +57,14 @@ public class BusinessUnitDTO {
     public void setCreatedOn(Timestamp createdOn) {
         this.createdOn = createdOn;
     }
+
+    public BusinessUnitDTO(){
+
+    }
+
+    public BusinessUnitDTO(String buName, String buHeadName, String buHeadEmail) {
+        this.buName = buName;
+        this.buHeadName = buHeadName;
+        this.buHeadEmail = buHeadEmail;
+    }
 }

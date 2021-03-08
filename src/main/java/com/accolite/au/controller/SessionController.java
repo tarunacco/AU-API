@@ -6,8 +6,10 @@ import com.accolite.au.services.SessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -42,5 +44,11 @@ public class SessionController {
     @DeleteMapping({"/{sessionId}"})
     public ResponseEntity<SuccessResponseDTO> deleteSession(@PathVariable(required = true, name="sessionId") int sessionId){
         return new ResponseEntity(sessionService.deleteSession(sessionId), HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"/bulkAdd"})
+    public ResponseEntity<SuccessResponseDTO> addBulkSessions(@RequestParam(name = "sessionsFile") MultipartFile sessionsFile, @RequestParam(name="batchId") int batchId) throws IOException {
+        sessionService.uploadFile(sessionsFile, batchId);
+        return new ResponseEntity(new SuccessResponseDTO("File will be uploaded soon, and you can refresh the page to see the updated data !!", HttpStatus.CREATED), HttpStatus.CREATED);
     }
 }
