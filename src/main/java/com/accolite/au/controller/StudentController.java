@@ -27,7 +27,7 @@ public class StudentController {
         return new ResponseEntity(studentService.addOrUpdateStudentToBatch(studentDTO), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = {"/bulkAdd"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = {"/bulkAdd"})
     public ResponseEntity<SuccessResponseDTO> addBulkStudents(@RequestParam(name = "studentsFile") MultipartFile studentFile, @RequestParam(name="batchId") int batchId) throws IOException{
         studentService.uploadFile(studentFile, batchId);
         return new ResponseEntity(new SuccessResponseDTO("File will be uploaded soon, and you can refresh the page to see the updated data !!", HttpStatus.CREATED), HttpStatus.CREATED);
