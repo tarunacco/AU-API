@@ -1,6 +1,6 @@
 package com.accolite.au.models;
 
-import com.accolite.au.embeddables.AttendanceEmbeddableId;
+import com.accolite.au.embeddables.TrainingEmbeddableId;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,13 +8,13 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-public class Attendance implements Serializable {
+public class Training implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO) // --> auto generated key
     private int id;
 
     // Composite Key
     @EmbeddedId
-    private AttendanceEmbeddableId attendanceId;
+    private TrainingEmbeddableId attendanceId;
 
     @MapsId("studentId")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,11 +24,11 @@ public class Attendance implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Session session;
 
-    public AttendanceEmbeddableId getAttendanceEmbeddableId() {
+    public TrainingEmbeddableId getAttendanceEmbeddableId() {
         return attendanceId;
     }
 
-    public void setAttendanceEmbeddableId(AttendanceEmbeddableId attendanceId) {
+    public void setAttendanceEmbeddableId(TrainingEmbeddableId attendanceId) {
         this.attendanceId = attendanceId;
     }
 
@@ -89,11 +89,11 @@ public class Attendance implements Serializable {
         this.id = id;
     }
 
-    public AttendanceEmbeddableId getAttendanceId() {
+    public TrainingEmbeddableId getAttendanceId() {
         return attendanceId;
     }
 
-    public void setAttendanceId(AttendanceEmbeddableId attendanceId) {
+    public void setAttendanceId(TrainingEmbeddableId attendanceId) {
         this.attendanceId = attendanceId;
     }
 

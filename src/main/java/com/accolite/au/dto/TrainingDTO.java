@@ -1,14 +1,14 @@
 package com.accolite.au.dto;
 
-import com.accolite.au.embeddables.AttendanceEmbeddableId;
+import com.accolite.au.embeddables.TrainingEmbeddableId;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
-public class AttendanceDTO {
+public class TrainingDTO {
     private int id;
 
-    private AttendanceEmbeddableId attendanceId;
+    private TrainingEmbeddableId attendanceId;
 
     private String status;
     private int marks;
@@ -33,11 +33,11 @@ public class AttendanceDTO {
         this.id = id;
     }
 
-    public AttendanceEmbeddableId getAttendanceId() {
+    public TrainingEmbeddableId getAttendanceId() {
         return attendanceId;
     }
 
-    public void setAttendanceId(AttendanceEmbeddableId attendanceId) {
+    public void setAttendanceId(TrainingEmbeddableId attendanceId) {
         this.attendanceId = attendanceId;
     }
 

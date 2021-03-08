@@ -5,19 +5,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class AttendanceEmbeddableId implements Serializable {
-
+public class TrainingEmbeddableId implements Serializable {
     private int sessionId;
-
     private int studentId;
 
 
-    public AttendanceEmbeddableId(int sessionId, int studentId) {
+    public TrainingEmbeddableId(int sessionId, int studentId) {
         this.sessionId = sessionId;
         this.studentId = studentId;
     }
 
-    public AttendanceEmbeddableId() {
+    public TrainingEmbeddableId() {
 
     }
 
@@ -25,7 +23,7 @@ public class AttendanceEmbeddableId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AttendanceEmbeddableId attendanceEmbeddableId = (AttendanceEmbeddableId) o;
+        TrainingEmbeddableId attendanceEmbeddableId = (TrainingEmbeddableId) o;
         return sessionId == attendanceEmbeddableId.sessionId &&
                 studentId == attendanceEmbeddableId.studentId;
     }
