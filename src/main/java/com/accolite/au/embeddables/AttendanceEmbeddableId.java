@@ -6,9 +6,9 @@ import java.util.Objects;
 
 @Embeddable
 public class AttendanceEmbeddableId implements Serializable {
-    @Column(name="sessionId")
+
     private int sessionId;
-    @Column(name="studentId")
+
     private int studentId;
 
 

@@ -14,15 +14,14 @@ public class Attendance implements Serializable {
 
     // Composite Key
     @EmbeddedId
-    @GeneratedValue
     private AttendanceEmbeddableId attendanceId;
 
     @MapsId("studentId")
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 
     @MapsId("sessionId")
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Session session;
 
     public AttendanceEmbeddableId getAttendanceEmbeddableId() {
