@@ -1,9 +1,7 @@
 package com.accolite.au.controller;
 
 import com.accolite.au.dto.BatchDTO;
-import com.accolite.au.dto.SessionDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
-import com.accolite.au.dto.TrainerDTO;
 import com.accolite.au.services.BatchService;
 import com.accolite.au.services.MailerService;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController

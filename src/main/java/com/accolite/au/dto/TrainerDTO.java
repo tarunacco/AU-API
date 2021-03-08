@@ -1,7 +1,5 @@
 package com.accolite.au.dto;
 
-import com.accolite.au.models.BusinessUnit;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;

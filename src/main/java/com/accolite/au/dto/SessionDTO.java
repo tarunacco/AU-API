@@ -1,7 +1,5 @@
 package com.accolite.au.dto;
 
-import com.accolite.au.models.Trainer;
-
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
