@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -89,15 +90,30 @@ public class TrainingServiceImpl implements TrainingService {
         // create a ObjectNode root Node
         ObjectNode rootNode = mapper.createObjectNode();
 
-        List<String[]> sessions = sessionRepository.findAllSessions(); // [['session1', 1], ['session2', 2]]
+        //List<String[]> sessions = sessionRepository.findAllSessions(); // [['session1', 1], ['session2', 2]]
+
+        List<String[]> sessionsReport = new ArrayList<>();
+
+        if(type == 'A' || type == 'a'){
+            sessionsReport = trainingRepository.findAllSessionsAttendeesCount(); // [[total_present_count, 1, 'session1'], [total_present_count, 2, 'session2']]
+        }
+        else{
+            sessionsReport = trainingRepository.findAllSessionsMarks(); // [[avg_marks, 1, 'session1'], [avg_marks, 2, 'session2']]
+        }
 
         ArrayNode sessionNode = mapper.createArrayNode();
 
-        for(String[] row: sessions){
+        for(String[] row: sessionsReport){
 
             ObjectNode tempSessionEntity = mapper.createObjectNode();
             tempSessionEntity.put("sessionId", row[1]);
-            tempSessionEntity.put("sessionName", row[0]);
+            tempSessionEntity.put("sessionName", row[2]);
+            if(type == 'M' || type == 'm') {
+                tempSessionEntity.put("sessionAverage", row[0]);
+            }
+            else{
+                tempSessionEntity.put("totalPresentCount", row[0]);
+            }
 
             sessionNode.add(tempSessionEntity);
         }

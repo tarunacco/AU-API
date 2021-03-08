@@ -16,4 +16,12 @@ public interface TrainingRepository extends JpaRepository<Training, TrainingEmbe
 
     @Query("SELECT session.sessionId, session.sessionName, status, marks FROM Training WHERE student.studentId = :studentId")
     List<String[]> findAllSessionsForStudent(@Param("studentId") int studentId);
+
+
+    @Query("SELECT AVG(t.marks), t.session.sessionId, t.session.sessionName FROM Training AS t GROUP BY t.session.sessionId")
+    List<String[]> findAllSessionsMarks();
+
+    @Query("SELECT COUNT(t.session.sessionId), t.session.sessionId, t.session.sessionName FROM Training AS t WHERE t.status = 'P' GROUP BY t.session.sessionId")
+    List<String[]> findAllSessionsAttendeesCount();
+
 }
