@@ -10,5 +10,5 @@ public interface TrainingService {
 
     TrainingDTO getTrainingData(int sessionId, int studentId);
 
-    ObjectNode getAllTrainingData(char type);
+	ObjectNode getAllTrainingData(char type, int batchId);
 }

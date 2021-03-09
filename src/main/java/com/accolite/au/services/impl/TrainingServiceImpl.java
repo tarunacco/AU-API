@@ -81,8 +81,8 @@ public class TrainingServiceImpl implements TrainingService {
         throw new CustomEntityNotFoundExceptionDTO("Student with id : " + studentId + " not Found");
     }
 
-    @Override
-    public ObjectNode getAllTrainingData(char type){
+	@Override
+    public ObjectNode getAllTrainingData(char type, int batchId){
         // GENERATING CUSTOM ATTENDANCE RESPONSE
 
         // Object Mapper
@@ -102,8 +102,9 @@ public class TrainingServiceImpl implements TrainingService {
 //            sessionsReport = trainingRepository.findAllSessionsMarks(); // [[avg_marks, 1, 'session1'], [avg_marks, 2, 'session2']]
 //        }
 
-        sessionsReport = sessionRepository.findAllSessions();
-
+        //sessionsReport = sessionRepository.findAllSessions();
+        sessionsReport = sessionRepository.findAllSessionsByBatchId(batchId);
+        
         ArrayNode sessionNode = mapper.createArrayNode();
 
         for(String[] row: sessionsReport){
@@ -125,7 +126,7 @@ public class TrainingServiceImpl implements TrainingService {
 
         ArrayNode attendanceDataNode = mapper.createArrayNode();
 
-        for (Student student : studentRepository.findAll()) {
+        for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
             List<String[]> tempSessions = trainingRepository.findAllSessionsForStudent(student.getStudentId()); // [['session1', 'A', 12], ['session2', 'P', 45]]
 
             ObjectNode tempEntity = mapper.createObjectNode();

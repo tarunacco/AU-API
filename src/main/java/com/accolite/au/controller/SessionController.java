@@ -55,8 +55,8 @@ public class SessionController {
         return new ResponseEntity(new SuccessResponseDTO("File will be uploaded soon, and you can refresh the page to see the updated data !!", HttpStatus.CREATED), HttpStatus.CREATED);
     }
 
-    @PostMapping({"/sendMail"})
-    public ResponseEntity<SuccessResponseDTO> sendMail(@RequestParam(name="sessionId") int sessionId) throws IOException {
+    @PostMapping({"/sendMail/{sessionId}"})
+    public ResponseEntity<SuccessResponseDTO> sendMail(@PathVariable(name="sessionId") int sessionId) throws IOException {
         mailerService.SendMail(sessionId);
         return new ResponseEntity(new SuccessResponseDTO("Mail Will Be Sent Soon!! We have initiated the process", HttpStatus.CREATED), HttpStatus.CREATED);
     }

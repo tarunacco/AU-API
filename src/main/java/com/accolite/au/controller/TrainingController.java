@@ -28,9 +28,9 @@ public class TrainingController {
         return new ResponseEntity(trainingService.markAndUpdateTrainingData(trainingDTO, 'M'), HttpStatus.CREATED);
     }
 
-    @GetMapping({"/all"})
-    public ResponseEntity<ObjectNode> getAllTrainingData(@RequestParam(name="type") char type){
-        return new ResponseEntity(trainingService.getAllTrainingData(type), HttpStatus.OK);
+    @GetMapping({"/all/{batchId}"})
+    public ResponseEntity<ObjectNode> getAllTrainingData(@PathVariable(name="batchId") int batchId, @RequestParam(name="type") char type){
+        return new ResponseEntity(trainingService.getAllTrainingData(type, batchId), HttpStatus.OK);
     }
 
     @GetMapping({"/"})

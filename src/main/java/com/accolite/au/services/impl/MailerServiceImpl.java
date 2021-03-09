@@ -53,7 +53,7 @@ public class MailerServiceImpl implements MailerService {
         props.put("mail.smtp.port", "578");
         props.put("mail.smtp.starttls.enable", "true"); // TLS
 
-        FileInputStream mailProps = new FileInputStream("/home/abhi/Desktop/Accolite/AU Management System/AuManagementSystemFinal/src/main/resources/application.properties");
+        FileInputStream mailProps = new FileInputStream("F:\\AU Project Backend\\AU-API\\src\\main\\resources\\application.properties");
 
         props.load(mailProps);
         return props;
