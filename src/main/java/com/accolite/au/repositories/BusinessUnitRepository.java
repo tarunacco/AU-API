@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface BusinessUnitRepository extends JpaRepository<BusinessUnit, Integer> {
 
-    List<BusinessUnitDTO> findAllByBuHeadEmail(@Param("buHeadEmail") String buHeadEmail);
+    List<BusinessUnit> findAllByBuHeadEmail(@Param("buHeadEmail") String buHeadEmail);
 }

@@ -11,5 +11,5 @@ public interface TrainerRepository extends JpaRepository<Trainer, Integer> {
 
     List<Trainer> findAllByTrainerId(int batchId);
 
-    List<TrainerDTO> findAllByEmailId(@Param("email") String email);
+    List<Trainer> findAllByEmailId(@Param("email") String email);
 }

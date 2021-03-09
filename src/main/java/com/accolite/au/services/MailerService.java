@@ -7,7 +7,8 @@ import org.springframework.scheduling.annotation.Async;
 import java.io.IOException;
 
 public interface MailerService {
-    void SendMail(TrainerDTO trainerDTO, SessionDTO sessionDTO) throws IOException;
+    @Async
+    void SendMail(int sessionId) throws IOException;
 
     @Async
     void SendMockMail() throws IOException;

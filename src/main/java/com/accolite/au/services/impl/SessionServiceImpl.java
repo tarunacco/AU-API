@@ -1,7 +1,9 @@
 package com.accolite.au.services.impl;
 
 import com.accolite.au.dto.*;
+import com.accolite.au.mappers.BusinessUnitMapper;
 import com.accolite.au.mappers.SessionMapper;
+import com.accolite.au.mappers.TrainerMapper;
 import com.accolite.au.models.Batch;
 import com.accolite.au.models.Session;
 import com.accolite.au.models.Trainer;
@@ -21,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.InputStreamReader;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -36,8 +37,10 @@ public class SessionServiceImpl implements SessionService {
     private final BusinessUnitRepository businessUnitRepository;
     private final TrainerService trainerService;
     private final BusinessUnitService businessUnitService;
+    private final TrainerMapper trainerMapper;
+    private final BusinessUnitMapper businessUnitMapper;
 
-    public SessionServiceImpl(SessionRepository sessionRepository, BatchRepository batchRepository, SessionMapper sessionMapper, EntityManager entityManager, ValidatorFunctions validatorFunctions, TrainerRepository trainerRepository, BusinessUnitRepository businessUnitRepository, TrainerService trainerService, BusinessUnitService businessUnitService) {
+    public SessionServiceImpl(SessionRepository sessionRepository, BatchRepository batchRepository, SessionMapper sessionMapper, EntityManager entityManager, ValidatorFunctions validatorFunctions, TrainerRepository trainerRepository, BusinessUnitRepository businessUnitRepository, TrainerService trainerService, BusinessUnitService businessUnitService, TrainerMapper trainerMapper, BusinessUnitMapper businessUnitMapper) {
         this.sessionRepository = sessionRepository;
         this.batchRepository = batchRepository;
         this.sessionMapper = sessionMapper;
@@ -47,6 +50,8 @@ public class SessionServiceImpl implements SessionService {
         this.businessUnitRepository = businessUnitRepository;
         this.trainerService = trainerService;
         this.businessUnitService = businessUnitService;
+        this.trainerMapper = trainerMapper;
+        this.businessUnitMapper = businessUnitMapper;
     }
 
     @Override
@@ -127,7 +132,7 @@ public class SessionServiceImpl implements SessionService {
     private BusinessUnitDTO findWhichIsBUEmail(String row){
         String splitData[] = row.split(",");
         for(String ele : splitData){
-            List<BusinessUnitDTO> bUs= businessUnitRepository.findAllByBuHeadEmail(ele.trim());
+            List<BusinessUnitDTO> bUs= businessUnitMapper.toBusinessUnitDTOs(businessUnitRepository.findAllByBuHeadEmail(ele.trim()));
             if(bUs.size() > 0){
                 return bUs.get(0);
             }
@@ -154,17 +159,22 @@ public class SessionServiceImpl implements SessionService {
             List<String[]> rows = csvReader.readAll();
             for(String[] row : rows){
                 if(this.isValidRow(row)){
-                    List<TrainerDTO> trainers = trainerRepository.findAllByEmailId(row[4]);
-                    TrainerDTO trainer = new TrainerDTO();
+                    List<TrainerDTO> trainers = trainerMapper.toTrainerDTOs(trainerRepository.findAllByEmailId(row[4]));
+                    TrainerDTO trainer;
 
                     // No Such Trainer Exists
                     if(trainers.size() == 0){
+                        System.out.println("Creating Trainer");
                         // create trainer
+
                         BusinessUnitDTO bU = this.findWhichIsBUEmail(row[5]);
                         if(bU == null){
-                            bU = businessUnitService.addBusinessUnit(new BusinessUnitDTO());
+                            //  bU = businessUnitService.addBusinessUnit(new BusinessUnitDTO());
+                            System.out.println("No BU Exists");
+                            continue;
                         }
                         trainer = trainerService.addToBatchOrUpdateTrainer(new TrainerDTO(bU, row[3], "", this.findRMEmailId(bU.getBuHeadEmail(), row[5]), row[4]));
+                        System.out.println("UFF");
                         if(trainer != null){
                             System.out.println("Added Trainer");
                         }
@@ -177,8 +187,11 @@ public class SessionServiceImpl implements SessionService {
                         trainer = trainers.get(0);
                     }
 
-                    // Create New Sessison
-                    if(this.addOrUpdateSession(new SessionDTO(batchId, row[2], (Date) new SimpleDateFormat("yyyy-MM-dd").parse(row[0]), this.findSlot(row[6]), trainer)) != null){
+//                    SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd");
+//                    System.out.println(formatter1.parse(row[0]).toString());
+
+                    // Create New Session
+                    if(this.addOrUpdateSession(new SessionDTO(batchId, row[2], row[0], this.findSlot(row[6]), trainer)) != null){
                         System.out.println("Uploaded This Row");
                     }
                     else{
@@ -193,13 +206,4 @@ public class SessionServiceImpl implements SessionService {
             System.out.println("Some Exception Occurred!! " + e.toString());
         }
     }
-
-//    @Override
-//    public SessionDTO updateSession(SessionDTO sessionDTO){
-//        if(sessionRepository.existsById(sessionDTO.getSessionId())) {
-//            Session session = sessionMapper.toSession(sessionDTO);
-//            return sessionMapper.toSessionDTO(sessionRepository.saveAndFlush(session));
-//        }
-//        throw new CustomEntityNotFoundExceptionDTO("Session with id : " + sessionDTO.getSessionId() + " not Found");
-//    }
 }

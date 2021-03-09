@@ -109,10 +109,11 @@ public class SessionDTO {
         this.daySlot = daySlot;
     }
 
-    public SessionDTO(int batchId, String sessionName, Date startDate, String daySlot, TrainerDTO trainerDTO) {
+    public SessionDTO(int batchId, String sessionName, String startDate, String daySlot, TrainerDTO trainerDTO) {
         this.sessionName = sessionName;
-        this.startDate = startDate;
+        this.startDate = Date.valueOf(startDate);
         this.daySlot = daySlot;
         this.trainer = trainerDTO;
+        this.batchId = batchId;
     }
 }

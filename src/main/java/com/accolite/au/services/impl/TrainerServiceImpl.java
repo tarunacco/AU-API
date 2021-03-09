@@ -4,10 +4,10 @@ import com.accolite.au.dto.CustomEntityNotFoundExceptionDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.dto.TrainerDTO;
 import com.accolite.au.mappers.TrainerMapper;
-import com.accolite.au.models.Batch;
 import com.accolite.au.models.BusinessUnit;
 import com.accolite.au.models.Trainer;
 import com.accolite.au.repositories.BatchRepository;
+import com.accolite.au.repositories.BusinessUnitRepository;
 import com.accolite.au.repositories.TrainerRepository;
 import com.accolite.au.services.TrainerService;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TrainerServiceImpl implements TrainerService {
@@ -25,24 +24,24 @@ public class TrainerServiceImpl implements TrainerService {
     private final TrainerRepository trainerRepository;
     private final TrainerMapper trainerMapper;
     private final EntityManager entityManager;
+    private final BusinessUnitRepository businessUnitRepository;
 
-    public TrainerServiceImpl(BatchRepository batchRepository, TrainerRepository trainerRepository, TrainerMapper trainerMapper, EntityManager entityManager) {
+    public TrainerServiceImpl(BatchRepository batchRepository, TrainerRepository trainerRepository, TrainerMapper trainerMapper, EntityManager entityManager, BusinessUnitRepository businessUnitRepository) {
         this.batchRepository = batchRepository;
         this.trainerRepository = trainerRepository;
         this.trainerMapper = trainerMapper;
         this.entityManager = entityManager;
+        this.businessUnitRepository = businessUnitRepository;
     }
 
     @Override
     public TrainerDTO addToBatchOrUpdateTrainer(TrainerDTO trainerDTO){
-        //if(batchRepository.existsById(trainerDTO.getBatchId())) {
-            Trainer trainer = trainerMapper.toTrainer(trainerDTO);
-            //Batch batchReference = entityManager.getReference(Batch.class, trainerDTO.getBatchId());
+        Trainer trainer = trainerMapper.toTrainer(trainerDTO);
+        if(trainerDTO.getBusinessUnit() != null){
             BusinessUnit businessUnitReference = entityManager.getReference(BusinessUnit.class, trainerDTO.getBusinessUnit().getBuId());
-            //trainer.setBatch(batchReference);
             trainer.setBusinessUnit(businessUnitReference);
-            return trainerMapper.toTrainerDTO(trainerRepository.saveAndFlush(trainer));
-        //}
+        }
+        return trainerMapper.toTrainerDTO(trainerRepository.saveAndFlush(trainer));
         //throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + trainerDTO.getBatchId() + " not Found");
     }
 

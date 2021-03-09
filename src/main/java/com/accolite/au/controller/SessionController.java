@@ -2,6 +2,7 @@ package com.accolite.au.controller;
 
 import com.accolite.au.dto.SessionDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
+import com.accolite.au.services.MailerService;
 import com.accolite.au.services.SessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ import java.util.List;
 @RequestMapping("/session")
 public class SessionController {
     private final SessionService sessionService;
+    private final MailerService mailerService;
 
-    public SessionController(SessionService sessionService) {
+    public SessionController(SessionService sessionService, MailerService mailerService) {
         this.sessionService = sessionService;
+        this.mailerService = mailerService;
     }
 
     @PostMapping({"/add"})
@@ -50,5 +53,11 @@ public class SessionController {
     public ResponseEntity<SuccessResponseDTO> addBulkSessions(@RequestParam(name = "sessionsFile") MultipartFile sessionsFile, @RequestParam(name="batchId") int batchId) throws IOException {
         sessionService.uploadFile(sessionsFile, batchId);
         return new ResponseEntity(new SuccessResponseDTO("File will be uploaded soon, and you can refresh the page to see the updated data !!", HttpStatus.CREATED), HttpStatus.CREATED);
+    }
+
+    @PostMapping({"/sendMail"})
+    public ResponseEntity<SuccessResponseDTO> sendMail(@RequestParam(name="sessionId") int sessionId) throws IOException {
+        mailerService.SendMail(sessionId);
+        return new ResponseEntity(new SuccessResponseDTO("Mail Will Be Sent Soon!! We have initiated the process", HttpStatus.CREATED), HttpStatus.CREATED);
     }
 }
