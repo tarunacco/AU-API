@@ -40,18 +40,13 @@ public class TrainerServiceImpl implements TrainerService {
         if(trainerDTO.getBusinessUnit() != null){
             BusinessUnit businessUnitReference = entityManager.getReference(BusinessUnit.class, trainerDTO.getBusinessUnit().getBuId());
             trainer.setBusinessUnit(businessUnitReference);
+            return trainerMapper.toTrainerDTO(trainerRepository.saveAndFlush(trainer));
         }
-        return trainerMapper.toTrainerDTO(trainerRepository.saveAndFlush(trainer));
-        //throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + trainerDTO.getBatchId() + " not Found");
+        throw new CustomEntityNotFoundExceptionDTO("Business Unit Not Found");
     }
 
     @Override
     public List<TrainerDTO> getAllTrainers(){
-//        if(batchRepository.existsById()) {
-////            Set<Trainer> trainers = batchRepository.getOne(batchId).getTrainers();
-////            return trainerMapper.toTrainerDTOsSet(trainers);
-//        }
-        //throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
         return trainerMapper.toTrainerDTOs(trainerRepository.findAll());
     }
 

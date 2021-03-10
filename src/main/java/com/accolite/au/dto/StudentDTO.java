@@ -23,6 +23,14 @@ public class StudentDTO {
 
     private Timestamp createdOn;
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public int getStudentId() {
         return studentId;
     }
