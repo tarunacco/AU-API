@@ -14,7 +14,7 @@ public interface StudentMapper {
     @Mappings({@Mapping(target = "batch", ignore = true), @Mapping(source = "studentDTO.batchId", target = "batch.batchId")})
     Student toStudent(StudentDTO studentDTO);
 
-    @Mapping(source = "batch.batchId", target = "batchId")
+    @Mappings({@Mapping(source = "batch.batchId", target = "batchId")})
     StudentDTO toStudentDTO(Student student);
 
     List<StudentDTO> toStudentDTOs(List<Student> students);
