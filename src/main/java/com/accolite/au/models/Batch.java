@@ -3,7 +3,6 @@ package com.accolite.au.models;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,6 +18,9 @@ public class Batch implements Serializable {
     private String batchName;
     private String commonSkypeId;
     private String commonClassroomId;
+    private String classroomLink;
+    private String courseGroupEmail;
+    private String classroomName;
 
     @OneToMany(targetEntity = Student.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
@@ -26,23 +28,12 @@ public class Batch implements Serializable {
     @OneToMany(targetEntity = Session.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Session> sessions = new HashSet<>();
 
-//    @OneToMany(targetEntity = Trainer.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Set<Trainer> trainers = new HashSet<>();
-
     private Date startDate;
 
     private Date endDate;
 
     @CreationTimestamp
     private Timestamp createdOn;
-
-//    public Set<Trainer> getTrainers() {
-//        return trainers;
-//    }
-//
-//    public void setTrainers(Set<Trainer> trainers) {
-//        this.trainers = trainers;
-//    }
 
     public int getBatchId() {
         return batchId;
@@ -74,6 +65,30 @@ public class Batch implements Serializable {
 
     public void setCommonClassroomId(String commonClassroomId) {
         this.commonClassroomId = commonClassroomId;
+    }
+
+    public String getClassroomLink() {
+        return classroomLink;
+    }
+
+    public void setClassroomLink(String classroomLink) {
+        this.classroomLink = classroomLink;
+    }
+
+    public String getCourseGroupEmail() {
+        return courseGroupEmail;
+    }
+
+    public void setCourseGroupEmail(String courseGroupEmail) {
+        this.courseGroupEmail = courseGroupEmail;
+    }
+
+    public String getClassroomName() {
+        return classroomName;
+    }
+
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
 
     public Set<Student> getStudents() {

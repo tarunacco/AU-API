@@ -22,6 +22,7 @@ public class Student implements Serializable {
     private String lastName;
     private String skypeId;
     private String emailId;
+    private String location;
 
     @CreationTimestamp
     private Timestamp createdOn;

@@ -3,7 +3,6 @@ package com.accolite.au.models;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -23,29 +22,17 @@ public class Session {
     private Trainer trainer;
 
     private String sessionName;
-    private String classroomTopicId;
     private Date startDate;
     private Date endDate;
     private String daySlot; // M or A
+    private String classroomTopicId;
+    private String classroomTopicName;
+    private String calendarInviteLink;
+    private Timestamp calendarInviteTMSTP;
+    private Timestamp emailInviteTMSTP;
 
     @CreationTimestamp
     private Timestamp createdOn;
-
-    public Trainer getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(Trainer trainer) {
-        this.trainer = trainer;
-    }
-
-    public String getDaySlot() {
-        return daySlot;
-    }
-
-    public void setDaySlot(String daySlot) {
-        this.daySlot = daySlot;
-    }
 
     public int getSessionId() {
         return sessionId;
@@ -63,20 +50,20 @@ public class Session {
         this.batch = batch;
     }
 
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
+
     public String getSessionName() {
         return sessionName;
     }
 
     public void setSessionName(String sessionName) {
         this.sessionName = sessionName;
-    }
-
-    public String getClassroomTopicId() {
-        return classroomTopicId;
-    }
-
-    public void setClassroomTopicId(String classroomTopicId) {
-        this.classroomTopicId = classroomTopicId;
     }
 
     public Date getStartDate() {
@@ -93,6 +80,54 @@ public class Session {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getDaySlot() {
+        return daySlot;
+    }
+
+    public void setDaySlot(String daySlot) {
+        this.daySlot = daySlot;
+    }
+
+    public String getClassroomTopicId() {
+        return classroomTopicId;
+    }
+
+    public void setClassroomTopicId(String classroomTopicId) {
+        this.classroomTopicId = classroomTopicId;
+    }
+
+    public String getClassroomTopicName() {
+        return classroomTopicName;
+    }
+
+    public void setClassroomTopicName(String classroomTopicName) {
+        this.classroomTopicName = classroomTopicName;
+    }
+
+    public String getCalendarInviteLink() {
+        return calendarInviteLink;
+    }
+
+    public void setCalendarInviteLink(String calendarInviteLink) {
+        this.calendarInviteLink = calendarInviteLink;
+    }
+
+    public Timestamp getCalendarInviteTMSTP() {
+        return calendarInviteTMSTP;
+    }
+
+    public void setCalendarInviteTMSTP(Timestamp calendarInviteTMSTP) {
+        this.calendarInviteTMSTP = calendarInviteTMSTP;
+    }
+
+    public Timestamp getEmailInviteTMSTP() {
+        return emailInviteTMSTP;
+    }
+
+    public void setEmailInviteTMSTP(Timestamp emailInviteTMSTP) {
+        this.emailInviteTMSTP = emailInviteTMSTP;
     }
 
     public Timestamp getCreatedOn() {

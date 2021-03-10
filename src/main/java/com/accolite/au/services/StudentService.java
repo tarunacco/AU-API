@@ -19,6 +19,6 @@ public interface StudentService {
 
     SuccessResponseDTO deleteStudent(int studentId);
 
-    @Async
+//    @Async
     void uploadFile(MultipartFile studentFile, int batchId);
 }

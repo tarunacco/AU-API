@@ -15,6 +15,7 @@ public class StudentDTO {
     private String lastName;
 
     private String skypeId;
+    private String location;
 
     @Email
     @NotNull(message = "emailId Should be provided")

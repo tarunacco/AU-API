@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class MailerServiceImpl implements MailerService {
         props.put("mail.smtp.port", "578");
         props.put("mail.smtp.starttls.enable", "true"); // TLS
 
-        FileInputStream mailProps = new FileInputStream("F:\\AU Project Backend\\AU-API\\src\\main\\resources\\application.properties");
+        FileInputStream mailProps = new FileInputStream("/home/abhi/Desktop/Accolite/AU Management System/AuManagementSystemFinal/src/main/resources/application.properties");
 
         props.load(mailProps);
         return props;
@@ -129,6 +130,11 @@ public class MailerServiceImpl implements MailerService {
 
             message.setContent(multipart);
             Transport.send(message);
+
+            com.accolite.au.models.Session tempSession = sessionRepository.getOne(sessionDTO.getSessionId());
+            tempSession.setEmailInviteTMSTP(new Timestamp(System.currentTimeMillis()));
+            sessionRepository.saveAndFlush(tempSession);
+
             System.out.println("Message sent successfully");
         } catch (MessagingException e) {throw new RuntimeException(e);}
     }
