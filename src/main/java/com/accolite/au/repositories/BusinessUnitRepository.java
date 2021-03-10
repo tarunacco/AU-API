@@ -1,8 +1,6 @@
 package com.accolite.au.repositories;
 
-import com.accolite.au.dto.BusinessUnitDTO;
 import com.accolite.au.models.BusinessUnit;
-import com.accolite.au.models.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

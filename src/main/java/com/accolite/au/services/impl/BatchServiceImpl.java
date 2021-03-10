@@ -7,12 +7,9 @@ import com.accolite.au.mappers.BatchMapper;
 import com.accolite.au.models.Batch;
 import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.services.BatchService;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -20,12 +17,10 @@ public class BatchServiceImpl implements BatchService {
 
     private final BatchRepository batchRepository;
     private final BatchMapper batchMapper;
-    private final EntityManager entityManager;
 
-    public BatchServiceImpl(BatchRepository batchRepository, BatchMapper batchMapper, EntityManager entityManager) {
+    public BatchServiceImpl(BatchRepository batchRepository, BatchMapper batchMapper) {
         this.batchRepository = batchRepository;
         this.batchMapper = batchMapper;
-        this.entityManager = entityManager;
     }
 
     @Override

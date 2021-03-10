@@ -11,7 +11,6 @@ import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.BusinessUnitRepository;
 import com.accolite.au.repositories.SessionRepository;
 import com.accolite.au.repositories.TrainerRepository;
-import com.accolite.au.services.BusinessUnitService;
 import com.accolite.au.services.SessionService;
 import com.accolite.au.services.TrainerService;
 import com.accolite.au.utils.ValidatorFunctions;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -36,11 +34,10 @@ public class SessionServiceImpl implements SessionService {
     private final TrainerRepository trainerRepository;
     private final BusinessUnitRepository businessUnitRepository;
     private final TrainerService trainerService;
-    private final BusinessUnitService businessUnitService;
     private final TrainerMapper trainerMapper;
     private final BusinessUnitMapper businessUnitMapper;
 
-    public SessionServiceImpl(SessionRepository sessionRepository, BatchRepository batchRepository, SessionMapper sessionMapper, EntityManager entityManager, ValidatorFunctions validatorFunctions, TrainerRepository trainerRepository, BusinessUnitRepository businessUnitRepository, TrainerService trainerService, BusinessUnitService businessUnitService, TrainerMapper trainerMapper, BusinessUnitMapper businessUnitMapper) {
+    public SessionServiceImpl(SessionRepository sessionRepository, BatchRepository batchRepository, SessionMapper sessionMapper, EntityManager entityManager, ValidatorFunctions validatorFunctions, TrainerRepository trainerRepository, BusinessUnitRepository businessUnitRepository, TrainerService trainerService, TrainerMapper trainerMapper, BusinessUnitMapper businessUnitMapper) {
         this.sessionRepository = sessionRepository;
         this.batchRepository = batchRepository;
         this.sessionMapper = sessionMapper;
@@ -49,7 +46,6 @@ public class SessionServiceImpl implements SessionService {
         this.trainerRepository = trainerRepository;
         this.businessUnitRepository = businessUnitRepository;
         this.trainerService = trainerService;
-        this.businessUnitService = businessUnitService;
         this.trainerMapper = trainerMapper;
         this.businessUnitMapper = businessUnitMapper;
     }
@@ -128,7 +124,7 @@ public class SessionServiceImpl implements SessionService {
         return "M";
     }
 
-    // Finding Which is BU Is From this , seperated column values
+    // Finding Which is BU Is From this , separated column values
     private BusinessUnitDTO findWhichIsBUEmail(String row){
         String splitData[] = row.split(",");
         for(String ele : splitData){
@@ -169,7 +165,6 @@ public class SessionServiceImpl implements SessionService {
 
                         BusinessUnitDTO bU = this.findWhichIsBUEmail(row[5]);
                         if(bU == null){
-                            //  bU = businessUnitService.addBusinessUnit(new BusinessUnitDTO());
                             System.out.println("No BU Exists");
                             continue;
                         }
@@ -186,9 +181,6 @@ public class SessionServiceImpl implements SessionService {
                     else{
                         trainer = trainers.get(0);
                     }
-
-//                    SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd");
-//                    System.out.println(formatter1.parse(row[0]).toString());
 
                     // Create New Session
                     if(this.addOrUpdateSession(new SessionDTO(batchId, row[2], row[0], this.findSlot(row[6]), trainer)) != null){

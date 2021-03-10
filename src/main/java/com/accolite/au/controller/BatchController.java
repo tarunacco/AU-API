@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -46,11 +45,5 @@ public class BatchController {
     @DeleteMapping({"/{batchId}"})
     public ResponseEntity<SuccessResponseDTO> deleteBatch(@PathVariable(required = true, name="batchId") int batchId){
         return new ResponseEntity(batchService.deleteBatch(batchId), HttpStatus.OK);
-    }
-
-    @PostMapping({"/sendMockMail"})
-    public ResponseEntity<String> sendMail() throws IOException {
-        mailerService.SendMockMail();
-        return new ResponseEntity("Mail Will Be Sent Soon!! We have initiated the process", HttpStatus.CREATED);
     }
 }

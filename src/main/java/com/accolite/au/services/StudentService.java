@@ -2,11 +2,8 @@ package com.accolite.au.services;
 
 import com.accolite.au.dto.StudentDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public interface StudentService {

@@ -1,6 +1,5 @@
 package com.accolite.au.services;
 
-import com.accolite.au.dto.BatchDTO;
 import com.accolite.au.dto.BusinessUnitDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
 

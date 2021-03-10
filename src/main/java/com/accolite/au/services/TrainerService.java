@@ -4,7 +4,6 @@ import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.dto.TrainerDTO;
 
 import java.util.List;
-import java.util.Set;
 
 public interface TrainerService {
 

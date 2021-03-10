@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -163,28 +162,6 @@ public class MailerServiceImpl implements MailerService {
         else{
             System.out.println("No Such Session Id Exists");
         }
-    }
-
-    @Override
-    public void SendMockMail() throws IOException{
-        //TrainerDTO trainerDTO = new TrainerDTO(2, 1, "Tarun", "tarun.k", "abhinav.sharma@accolitedigital.com", "abhinavsharma629@gmail.com");
-        SessionDTO sessionDTO = new SessionDTO("Spring Boot", "123", Date.valueOf("1998-08-08"), Date.valueOf("1998-08-08"), "M");
-
-        Properties props = this.getPropertyProps();
-
-        System.out.println(props.getProperty("mailId"));
-        System.out.println(props.getProperty("mailPassword"));
-        System.out.println(props);
-
-        //get Session
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(props.getProperty("mailId"),props.getProperty("mailPassword"));
-                    }
-                });
-
-        //this.composeAndSendMail(trainerDTO, sessionDTO, session);
     }
 
     private void addAttachments(Multipart multipart, File dir) throws MessagingException {

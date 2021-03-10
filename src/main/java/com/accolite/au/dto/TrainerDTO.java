@@ -6,8 +6,6 @@ import java.sql.Timestamp;
 
 public class TrainerDTO {
     private int trainerId;
-    //    private int businessUnitId;
-    //private int batchId = Integer.MIN_VALUE;
 
     private BusinessUnitDTO businessUnit;
 
@@ -32,13 +30,6 @@ public class TrainerDTO {
         this.businessUnit = businessUnit;
     }
 
-    //    public int getBatchId() {
-//        return batchId;
-//    }
-//
-//    public void setBatchId(int batchId) {
-//        this.batchId = batchId;
-//    }
     public int getTrainerId() {
         return trainerId;
     }
@@ -46,14 +37,6 @@ public class TrainerDTO {
     public void setTrainerId(int trainerId) {
         this.trainerId = trainerId;
     }
-
-//    public int getBusinessUnitId() {
-//        return businessUnitId;
-//    }
-//
-//    public void setBusinessUnitId(int businessUnitId) {
-//        this.businessUnitId = businessUnitId;
-//    }
 
     public String getTrainerName() {
         return trainerName;

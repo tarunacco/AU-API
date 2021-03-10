@@ -1,11 +1,9 @@
 package com.accolite.au.services.impl;
 
-import com.accolite.au.dto.BatchDTO;
 import com.accolite.au.dto.BusinessUnitDTO;
 import com.accolite.au.dto.CustomEntityNotFoundExceptionDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.mappers.BusinessUnitMapper;
-import com.accolite.au.models.Batch;
 import com.accolite.au.models.BusinessUnit;
 import com.accolite.au.repositories.BusinessUnitRepository;
 import com.accolite.au.services.BusinessUnitService;

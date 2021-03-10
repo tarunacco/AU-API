@@ -24,6 +24,7 @@ public interface TrainingRepository extends JpaRepository<Training, TrainingEmbe
     @Query("SELECT COUNT(t.session.sessionId), t.session.sessionId, t.session.sessionName FROM Training AS t WHERE t.status = 'P' GROUP BY t.session.sessionId")
     List<String[]> findAllSessionsAttendeesCount();
 
-//    SELECT s.session_name, s.session_id, tr.total_atten FROM session as s LEFT JOIN (SELECT COUNT(t.session_session_id) as total_atten, t.session_session_id FROM training as t WHERE t.status = 'P' GROUP BY t.session_session_id) as tr ON s.session_id = tr.session_session_id;
+    // JOIN QUERY
+    //    SELECT s.session_name, s.session_id, tr.total_atten FROM session as s LEFT JOIN (SELECT COUNT(t.session_session_id) as total_atten, t.session_session_id FROM training as t WHERE t.status = 'P' GROUP BY t.session_session_id) as tr ON s.session_id = tr.session_session_id;
 
 }

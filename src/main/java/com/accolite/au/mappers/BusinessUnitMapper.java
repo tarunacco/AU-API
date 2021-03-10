@@ -3,7 +3,6 @@ package com.accolite.au.mappers;
 import com.accolite.au.dto.BusinessUnitDTO;
 import com.accolite.au.models.BusinessUnit;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 

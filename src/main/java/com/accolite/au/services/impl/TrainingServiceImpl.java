@@ -14,11 +14,9 @@ import com.accolite.au.services.TrainingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,7 +42,7 @@ public class TrainingServiceImpl implements TrainingService {
                 studentRepository.existsById(trainingDTO.getAttendanceId().getStudentId())){
 
             TrainingEmbeddableId trainingEmbeddableId = new TrainingEmbeddableId(trainingDTO.getAttendanceId().getSessionId(), trainingDTO.getAttendanceId().getStudentId());
-            Training training = new Training();
+            Training training;
             if(trainingRepository.existsById(trainingEmbeddableId)){
                 training = trainingRepository.getOne(trainingEmbeddableId);
                 if(type == 'M' || type == 'm'){
@@ -91,9 +89,7 @@ public class TrainingServiceImpl implements TrainingService {
         // create a ObjectNode root Node
         ObjectNode rootNode = mapper.createObjectNode();
 
-        //List<String[]> sessions = sessionRepository.findAllSessions(); // [['session1', 1], ['session2', 2]]
-
-        List<String[]> sessionsReport = new ArrayList<>();
+        List<String[]> sessionsReport ;
 
 //        if(type == 'A' || type == 'a'){
 //            sessionsReport = trainingRepository.findAllSessionsAttendeesCount(); // [[total_present_count, 1, 'session1'], [total_present_count, 2, 'session2']]
@@ -112,13 +108,6 @@ public class TrainingServiceImpl implements TrainingService {
             ObjectNode tempSessionEntity = mapper.createObjectNode();
             tempSessionEntity.put("sessionId", row[1]);
             tempSessionEntity.put("sessionName", row[0]);
-//            if(type == 'M' || type == 'm') {
-//                tempSessionEntity.put("sessionAverage", row[0]);
-//            }
-//            else{
-//                tempSessionEntity.put("totalPresentCount", row[0]);
-//            }
-
             sessionNode.add(tempSessionEntity);
         }
 
