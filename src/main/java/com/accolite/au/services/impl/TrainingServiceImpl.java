@@ -134,6 +134,9 @@ public class TrainingServiceImpl implements TrainingService {
             // Creating Student JSONObject
             ObjectNode tempStudentEntity = mapper.createObjectNode();
             tempStudentEntity.put("studentName", student.getFirstName() + " " + student.getLastName());
+            tempStudentEntity.put("studentEmail", student.getEmailId());
+            tempStudentEntity.put("studentFirstName", student.getFirstName());
+            tempStudentEntity.put("studentLastName", student.getLastName());
             tempStudentEntity.put("studentId", student.getStudentId());
             tempEntity.put("student", tempStudentEntity.toString());
 
