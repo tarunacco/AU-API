@@ -3,8 +3,8 @@
   <ID>DATABASE</ID>
   <OriginalElement>06b9dc91-786d-4f31-abd9-6a0c785b621e</OriginalElement>
   <nodes>
-    <node x="0.0" y="540.0">06b9dc91-786d-4f31-abd9-6a0c785b621e.TABLE:AUManagementSystem.training</node>
     <node x="305.0" y="0.0">06b9dc91-786d-4f31-abd9-6a0c785b621e.TABLE:AUManagementSystem.trainer</node>
+    <node x="0.0" y="540.0">06b9dc91-786d-4f31-abd9-6a0c785b621e.TABLE:AUManagementSystem.training</node>
     <node x="0.0" y="294.0">06b9dc91-786d-4f31-abd9-6a0c785b621e.TABLE:AUManagementSystem.batch</node>
     <node x="0.0" y="0.0">06b9dc91-786d-4f31-abd9-6a0c785b621e.TABLE:AUManagementSystem.session</node>
     <node x="243.0" y="540.0">06b9dc91-786d-4f31-abd9-6a0c785b621e.TABLE:AUManagementSystem.attendance</node>
@@ -14,14 +14,14 @@
   </nodes>
   <notes />
   <edges />
-  <settings layout="Hierarchic Group" zoom="1.0" x="781.5" y="371.5" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="401.5" y="358.5" />
   <SelectedNodes>
     <node>06b9dc91-786d-4f31-abd9-6a0c785b621e.TABLE:AUManagementSystem.session</node>
   </SelectedNodes>
   <Categories>
-    <Category>Comments</Category>
-    <Category>Columns</Category>
     <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
   </Categories>
 </Diagram>
 
