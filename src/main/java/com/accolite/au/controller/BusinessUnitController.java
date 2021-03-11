@@ -15,7 +15,7 @@ import java.util.List;
 public class BusinessUnitController {
     private final BusinessUnitService businessUnitService;
 
-    public BusinessUnitController(BusinessUnitService businessUnitService) {
+    public BusinessUnitController(BusinessUnitService businessUnitService){
         this.businessUnitService = businessUnitService;
     }
 
