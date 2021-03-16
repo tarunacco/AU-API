@@ -1,6 +1,6 @@
 package com.accolite.au.controller;
 
-import com.accolite.au.dto.GroupDTO;
+import com.accolite.au.dto.StudentGroupDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.services.GroupService;
 import org.springframework.http.HttpStatus;
@@ -20,22 +20,22 @@ public class GroupController {
     }
 
     @PostMapping({"/add/{batchId}"})
-    public ResponseEntity<GroupDTO> addGroup(@Valid @RequestBody GroupDTO groupDTO, @PathVariable(required = true, name = "batchId") int batchId) {
-        return new ResponseEntity(groupService.addGroup(groupDTO, batchId), HttpStatus.CREATED);
+    public ResponseEntity<StudentGroupDTO> addGroup(@Valid @RequestBody StudentGroupDTO studentGroupDTO, @PathVariable(required = true, name = "batchId") int batchId) {
+        return new ResponseEntity(groupService.addGroup(studentGroupDTO, batchId), HttpStatus.CREATED);
     }
 
     @PostMapping({"/automate/{batchId}"})
-    public ResponseEntity<List<GroupDTO>> automateGrouping(@PathVariable(required = false, name = "batchId") int batchId) {
+    public ResponseEntity<List<StudentGroupDTO>> automateGrouping(@PathVariable(required = false, name = "batchId") int batchId) {
         return new ResponseEntity(groupService.automateGrouping(batchId), HttpStatus.CREATED);
     }
 
     @GetMapping({"/all"})
-    public ResponseEntity<List<GroupDTO>> getAllGroupsForABatch(@RequestParam(required = false, name = "batchId") int batchId){
+    public ResponseEntity<List<StudentGroupDTO>> getAllGroupsForABatch(@RequestParam(required = false, name = "batchId") int batchId){
         return new ResponseEntity(groupService.getAllGroupsForABatch(batchId), HttpStatus.OK);
     }
 
     @GetMapping({"/{groupId}"})
-    public ResponseEntity<GroupDTO> getGroup(@PathVariable(required = true, name = "groupId") int groupId){
+    public ResponseEntity<StudentGroupDTO> getGroup(@PathVariable(required = true, name = "groupId") int groupId){
         return new ResponseEntity(groupService.getGroup(groupId), HttpStatus.OK);
     }
 
@@ -45,7 +45,7 @@ public class GroupController {
     }
 
     @PutMapping({"/{groupId}"})
-    public ResponseEntity<GroupDTO> updateGroup(@Valid @RequestBody GroupDTO groupDTO) {
-        return new ResponseEntity(groupService.updateGroup(groupDTO), HttpStatus.CREATED);
+    public ResponseEntity<StudentGroupDTO> updateGroup(@Valid @RequestBody StudentGroupDTO studentGroupDTO) {
+        return new ResponseEntity(groupService.updateGroup(studentGroupDTO), HttpStatus.CREATED);
     }
 }

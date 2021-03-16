@@ -1,9 +1,9 @@
 package com.accolite.au.services.impl;
 
 import com.accolite.au.dto.CustomEntityNotFoundExceptionDTO;
-import com.accolite.au.dto.GroupDTO;
+import com.accolite.au.dto.StudentGroupDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
-import com.accolite.au.mappers.GroupMapper;
+import com.accolite.au.mappers.StudentGroupMapper;
 import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.GroupRepository;
 import org.springframework.http.HttpStatus;
@@ -14,35 +14,35 @@ import java.util.List;
 @Service
 public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     private final GroupRepository groupRepository;
-    private final GroupMapper groupMapper;
+    private final StudentGroupMapper studentGroupMapper;
     private final BatchRepository batchRepository;
 
-    public GroupServiceImpl(GroupRepository groupRepository, GroupMapper groupMapper, BatchRepository batchRepository) {
+    public GroupServiceImpl(GroupRepository groupRepository, StudentGroupMapper studentGroupMapper, BatchRepository batchRepository) {
         this.groupRepository = groupRepository;
-        this.groupMapper = groupMapper;
+        this.studentGroupMapper = studentGroupMapper;
         this.batchRepository = batchRepository;
     }
 
     @Override
-    public GroupDTO addGroup(GroupDTO groupDTO, int batchId){
-        return groupDTO;
+    public StudentGroupDTO addGroup(StudentGroupDTO studentGroupDTO, int batchId){
+        return studentGroupDTO;
     }
 
     @Override
-    public GroupDTO updateGroup(GroupDTO groupDTO){
-        return groupDTO;
+    public StudentGroupDTO updateGroup(StudentGroupDTO studentGroupDTO){
+        return studentGroupDTO;
     }
 
     @Override
-    public GroupDTO getGroup(int groupId) throws CustomEntityNotFoundExceptionDTO {
+    public StudentGroupDTO getGroup(int groupId) throws CustomEntityNotFoundExceptionDTO {
         if(groupRepository.existsById(groupId)){
-            return groupMapper.toGroupDTO(groupRepository.getOne(groupId));
+            return studentGroupMapper.toStudentGroupDTO(groupRepository.getOne(groupId));
         }
         throw new CustomEntityNotFoundExceptionDTO("Group Id " + groupId + " not found");
     }
 
     @Override
-    public List<GroupDTO> automateGrouping(int batchId) throws CustomEntityNotFoundExceptionDTO {
+    public List<StudentGroupDTO> automateGrouping(int batchId) throws CustomEntityNotFoundExceptionDTO {
         System.out.println("Batch Id "+ batchId);
         if(batchRepository.existsById(batchId)){
 
@@ -54,7 +54,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     }
 
     @Override
-    public List<GroupDTO> getAllGroupsForABatch(int batchId) throws CustomEntityNotFoundExceptionDTO {
+    public List<StudentGroupDTO> getAllGroupsForABatch(int batchId) throws CustomEntityNotFoundExceptionDTO {
         if(batchRepository.existsById(batchId)){
 
         }

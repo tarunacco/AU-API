@@ -10,18 +10,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Group implements Serializable {
+public class StudentGroup implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int groupId;
+    private int studentGroupId;
 
-    private String groupName;
+    private String studentGroupName;
 
     @ManyToOne
     @JoinColumn(name = "batchId")
     private Batch batch;
 
-    @OneToMany(targetEntity = Student.class, mappedBy = "group", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Student.class, mappedBy = "studentGroup", fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();
 
     @OneToOne(targetEntity = Trainer.class, fetch = FetchType.LAZY)
@@ -31,28 +31,28 @@ public class Group implements Serializable {
     @CreationTimestamp
     private Timestamp createdOn;
 
+    public int getStudentGroupId() {
+        return studentGroupId;
+    }
+
+    public void setStudentGroupId(int studentGroupId) {
+        this.studentGroupId = studentGroupId;
+    }
+
+    public String getStudentGroupName() {
+        return studentGroupName;
+    }
+
+    public void setStudentGroupName(String studentGroupName) {
+        this.studentGroupName = studentGroupName;
+    }
+
     public Batch getBatch() {
         return batch;
     }
 
     public void setBatch(Batch batch) {
         this.batch = batch;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
     }
 
     public Set<Student> getStudents() {

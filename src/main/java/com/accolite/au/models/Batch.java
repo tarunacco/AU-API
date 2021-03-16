@@ -28,8 +28,8 @@ public class Batch implements Serializable {
     @OneToMany(targetEntity = Session.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Session> sessions = new HashSet<>();
 
-    @OneToMany(targetEntity = Group.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Group> groups = new HashSet<>();
+    @OneToMany(targetEntity = StudentGroup.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<StudentGroup> studentGroups = new HashSet<>();
 
     private Date startDate;
 

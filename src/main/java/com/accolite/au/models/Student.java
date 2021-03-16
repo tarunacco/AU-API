@@ -16,9 +16,9 @@ public class Student implements Serializable {
     @JoinColumn(name = "batch_id")
     private Batch batch;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @ManyToOne
+    @JoinColumn(name = "studentGroupId")
+    private StudentGroup studentGroup;
 
     private String firstName;
     private String lastName;

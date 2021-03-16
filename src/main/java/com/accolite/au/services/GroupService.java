@@ -1,20 +1,20 @@
 package com.accolite.au.services;
 
-import com.accolite.au.dto.GroupDTO;
+import com.accolite.au.dto.StudentGroupDTO;
 import com.accolite.au.dto.SuccessResponseDTO;
 
 import java.util.List;
 
 public interface GroupService {
-    GroupDTO addGroup(GroupDTO groupDTO, int batchId);
+    StudentGroupDTO addGroup(StudentGroupDTO studentGroupDTO, int batchId);
 
-    GroupDTO updateGroup(GroupDTO groupDTO);
+    StudentGroupDTO updateGroup(StudentGroupDTO studentGroupDTO);
 
-    GroupDTO getGroup(int batchId);
+    StudentGroupDTO getGroup(int batchId);
 
-    List<GroupDTO> automateGrouping(int batchId);
+    List<StudentGroupDTO> automateGrouping(int batchId);
 
-    List<GroupDTO> getAllGroupsForABatch(int batchId);
+    List<StudentGroupDTO> getAllGroupsForABatch(int batchId);
 
     SuccessResponseDTO deleteGroup(int batchId);
 }

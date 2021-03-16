@@ -21,7 +21,7 @@ public class Trainer implements Serializable {
     private BusinessUnit businessUnit;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private Group group;
+    private StudentGroup studentGroup;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Session session;
