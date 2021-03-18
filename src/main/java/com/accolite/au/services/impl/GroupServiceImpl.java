@@ -45,13 +45,17 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     @Override
     public StudentGroupDTO addGroup(StudentGroupDTO studentGroupDTO, int batchId) throws CustomEntityNotFoundExceptionDTO {
         if(batchRepository.existsById(batchId)) {
+            System.out.println(studentGroupDTO.getStudents().size());
             StudentGroup studentGroup = studentGroupMapper.toStudentGroup(studentGroupDTO);
             Trainer trainer = entityManager.getReference(Trainer.class, studentGroupDTO.getTrainerId());
             studentGroup.setBatch(entityManager.getReference(Batch.class, batchId));
             studentGroup.setTrainer(trainer);
-            groupRepository.saveAndFlush(studentGroup);
+            System.out.println(studentGroup.getStudents().size());
+            studentGroup = groupRepository.saveAndFlush(studentGroup);
+            System.out.println(studentGroup.getStudents().size());
             for(Student student : studentGroup.getStudents()){
                 student.setStudentGroup(studentGroup);
+                studentRepository.saveAndFlush(student);
             }
             return studentGroupMapper.toStudentGroupDTO(studentGroup);
         }
@@ -130,12 +134,14 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     @Override
     public SuccessResponseDTO deleteStudentFromGroup(int groupId, int studentId) throws CustomEntityNotFoundExceptionDTO {
         if(groupRepository.existsById(groupId) && studentRepository.existsById(studentId)){
-            if(studentRepository.getOne(studentId).getStudentGroup() != null && studentRepository.getOne(studentId).getStudentGroup().getStudentGroupId() == groupId) {
+            if(studentRepository.getOne(studentId).getStudentGroup() != null &&
+                    studentRepository.getOne(studentId).getStudentGroup().getStudentGroupId() == groupId) {
+                
                 StudentGroup studentGroup = groupRepository.getOne(groupId);
-                studentGroup.getStudents().remove(studentRepository.getOne(studentId));
                 Student student = studentRepository.getOne(studentId);
-                student.setStudentGroup(null);
+                studentGroup.getStudents().remove(student);
                 groupRepository.saveAndFlush(studentGroup);
+                student.setStudentGroup(null);
                 studentRepository.saveAndFlush(student);
                 return new SuccessResponseDTO("Successfully deleted Group having id " + groupId, HttpStatus.OK);
             }
@@ -145,9 +151,16 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     }
 
     @Override
-    public SuccessResponseDTO addStudentToGroup(int groupId, List<Student> selectedStudentsList) throws CustomEntityNotFoundExceptionDTO {
+    public StudentGroupDTO addStudentToGroup(int groupId, List<Student> selectedStudentsList) throws CustomEntityNotFoundExceptionDTO {
         if(groupRepository.existsById(groupId)){
-            return new SuccessResponseDTO("Successfully deleted Group having id " + groupId, HttpStatus.OK);
+            StudentGroup studentGroup = groupRepository.getOne(groupId);
+            System.out.println(studentGroup.getStudents().size());
+            studentGroup.getStudents().addAll(selectedStudentsList);
+            System.out.println(studentGroup.getStudents().size());
+            StudentGroupDTO studentGroupDTO = studentGroupMapper.toStudentGroupDTO(studentGroup);
+            System.out.println(studentGroup.getStudents());
+            studentGroupDTO.setStudents(studentGroup.getStudents());
+            return this.addGroup(studentGroupDTO, studentGroup.getBatch().getBatchId());
         }
         throw new CustomEntityNotFoundExceptionDTO("Group Id " + groupId + " not found");
     }

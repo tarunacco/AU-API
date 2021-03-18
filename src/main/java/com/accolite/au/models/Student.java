@@ -13,7 +13,7 @@ public class Student implements Serializable {
     private int studentId;
 
     @ManyToOne
-    @JoinColumn(name = "batch_id")
+    @JoinColumn(name = "batchId")
     private Batch batch;
 
     @ManyToOne

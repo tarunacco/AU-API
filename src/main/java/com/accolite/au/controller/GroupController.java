@@ -52,7 +52,7 @@ public class GroupController {
     }
 
     @PutMapping({"/appendStudents/{groupId}"})
-    public ResponseEntity<SuccessResponseDTO> addStudentToGroup(@PathVariable(required = true, name = "groupId") int groupId, @RequestBody List<Student> selectedStudentsList){
+    public ResponseEntity<StudentGroupDTO> addStudentToGroup(@PathVariable(required = true, name = "groupId") int groupId, @RequestBody List<Student> selectedStudentsList){
         return new ResponseEntity(groupService.addStudentToGroup(groupId, selectedStudentsList), HttpStatus.OK);
     }
 

@@ -21,7 +21,7 @@ public class StudentGroup implements Serializable {
     @JoinColumn(name = "batchId")
     private Batch batch;
 
-    @OneToMany(targetEntity = Student.class, mappedBy = "studentGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Student.class, mappedBy = "studentGroup", fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();
 
     @OneToOne(targetEntity = Trainer.class, fetch = FetchType.LAZY)
