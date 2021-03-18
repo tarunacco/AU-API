@@ -21,11 +21,11 @@ public class StudentGroup implements Serializable {
     @JoinColumn(name = "batchId")
     private Batch batch;
 
-    @OneToMany(targetEntity = Student.class, mappedBy = "studentGroup", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Student.class, mappedBy = "studentGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
 
     @OneToOne(targetEntity = Trainer.class, fetch = FetchType.LAZY)
-    @JoinColumn(name="trainerId")
+    @JoinColumn(name = "trainerId")
     private Trainer trainer;
 
     @CreationTimestamp

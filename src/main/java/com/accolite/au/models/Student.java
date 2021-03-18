@@ -29,6 +29,14 @@ public class Student implements Serializable {
     @CreationTimestamp
     private Timestamp createdOn;
 
+    public StudentGroup getStudentGroup() {
+        return studentGroup;
+    }
+
+    public void setStudentGroup(StudentGroup studentGroup) {
+        this.studentGroup = studentGroup;
+    }
+
     public String getLocation() {
         return location;
     }

@@ -45,6 +45,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<StudentDTO> getAllUnassignedStudentsForABatch(int batchId){
+        if(batchRepository.existsById(batchId)) {
+            return studentMapper.toStudentDTOs(studentRepository.findAllByBatch_BatchIdWhereStudentGroupIsNull(batchId));
+        }
+        throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchId + " not Found");
+    }
+
+    @Override
     public StudentDTO getStudent(int studentId){
         if(studentRepository.existsById(studentId)) {
             return studentMapper.toStudentDTO(studentRepository.getOne(studentId));
