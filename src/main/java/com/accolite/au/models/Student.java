@@ -20,6 +20,9 @@ public class Student implements Serializable {
     @JoinColumn(name = "studentGroupId")
     private StudentGroup studentGroup;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ProjectFeedback projectFeedback;
+
     private String firstName;
     private String lastName;
     private String skypeId;
@@ -28,6 +31,14 @@ public class Student implements Serializable {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public ProjectFeedback getProjectFeedback() {
+        return projectFeedback;
+    }
+
+    public void setProjectFeedback(ProjectFeedback projectFeedback) {
+        this.projectFeedback = projectFeedback;
+    }
 
     public StudentGroup getStudentGroup() {
         return studentGroup;

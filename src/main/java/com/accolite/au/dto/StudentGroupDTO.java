@@ -19,10 +19,38 @@ public class StudentGroupDTO {
     @NotNull(message = "Group Name Should Be Provided")
     private String studentGroupName;
 
+    private String projectDocUrl;
+    private String projectName;
+    private String groupFeedback;
+
     private int trainerId;
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public String getProjectDocUrl() {
+        return projectDocUrl;
+    }
+
+    public void setProjectDocUrl(String projectDocUrl) {
+        this.projectDocUrl = projectDocUrl;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getGroupFeedback() {
+        return groupFeedback;
+    }
+
+    public void setGroupFeedback(String groupFeedback) {
+        this.groupFeedback = groupFeedback;
+    }
 
     public Set<Student> getStudents() {
         return students;
