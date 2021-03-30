@@ -83,8 +83,8 @@ public class GroupController {
         return new ResponseEntity(groupService.getAllFinalEvaluationData(batchId), HttpStatus.OK);
     }
 
-    @PostMapping({"/finalEval/saveMarks"})
-    public ResponseEntity<ProjectFeedbackDTO> assignMarks(@RequestBody ProjectFeedbackDTO projectFeedbackDTO){
-        return new ResponseEntity(groupService.assignMarks(projectFeedbackDTO), HttpStatus.OK);
+    @PostMapping({"/finalEval/saveMarks/{groupId}"})
+    public ResponseEntity<ProjectFeedbackDTO> assignMarks(@RequestBody ProjectFeedbackDTO projectFeedbackDTO, @PathVariable(required = false, name ="groupId") int groupId){
+        return new ResponseEntity(groupService.assignMarks(projectFeedbackDTO, groupId), HttpStatus.OK);
     }
 }

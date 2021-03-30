@@ -324,10 +324,11 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             ProjectFeedback projectFeedback = projectFeedbackRepository.containsStudentFeedback(student.getStudentId());
 
             ObjectNode projectTempEntity = mapper.createObjectNode();
-            projectTempEntity.put("feedbackId", projectFeedback.getFeedbackId());
-            projectTempEntity.put("marks", projectFeedback.getMarks());
-            projectTempEntity.put("feedback", projectFeedback.getFeedback());
-
+            if(projectFeedback != null) {
+                projectTempEntity.put("feedbackId", projectFeedback.getFeedbackId());
+                projectTempEntity.put("marks", projectFeedback.getMarks());
+                projectTempEntity.put("feedback", projectFeedback.getFeedback());
+            }
             tempEntity.set("projectDetails", projectTempEntity);
 
             for (String[] row : tempSessions) {
@@ -346,12 +347,22 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     }
 
     @Override
-    public ProjectFeedbackDTO assignMarks(ProjectFeedbackDTO projectFeedbackDTO){
+    public ProjectFeedbackDTO assignMarks(ProjectFeedbackDTO projectFeedbackDTO, int groupId){
         if (projectFeedbackRepository.existsById(projectFeedbackDTO.getFeedbackId())) {
             ProjectFeedback projectFeedback = projectFeedbackRepository.getOne(projectFeedbackDTO.getFeedbackId());
             projectFeedback.setMarks(projectFeedbackDTO.getMarks());
             return projectFeedbackMapper.toProjectFeedbackDTO(projectFeedbackRepository.saveAndFlush(projectFeedback));
         }
-        throw new CustomEntityNotFoundExceptionDTO("Feedback Id " + projectFeedbackDTO.getFeedbackId() + " not found");
+        if(groupRepository.existsById(groupId)) {
+            ProjectFeedback projectFeedback = projectFeedbackMapper.toProjectFeedback(projectFeedbackDTO);
+            Student student = studentRepository.getOne(projectFeedback.getStudent().getStudentId());
+            student.setProjectFeedback(projectFeedback);
+            studentRepository.saveAndFlush(student);
+            StudentGroup studentGroup = groupRepository.getOne(groupId);
+            studentGroup.getProjectFeedbacks().add(projectFeedback);
+            groupRepository.saveAndFlush(studentGroup);
+            return projectFeedbackMapper.toProjectFeedbackDTO(projectFeedbackRepository.saveAndFlush(projectFeedback));
+        }
+        throw new CustomEntityNotFoundExceptionDTO("Student Group Id " + groupId + " not found");
     }
 }

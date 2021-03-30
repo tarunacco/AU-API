@@ -32,5 +32,5 @@ public interface GroupService {
 
     ObjectNode getAllFinalEvaluationData(int batchId);
 
-    ProjectFeedbackDTO assignMarks(ProjectFeedbackDTO projectFeedbackDTO);
+    ProjectFeedbackDTO assignMarks(ProjectFeedbackDTO projectFeedbackDTO, int groupId);
 }
