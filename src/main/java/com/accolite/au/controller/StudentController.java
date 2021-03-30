@@ -42,6 +42,11 @@ public class StudentController {
         return new ResponseEntity(studentService.getAllStudentsForABatch(batchId), HttpStatus.OK);
     }
 
+    @GetMapping({"/allUnassigned"})
+    public ResponseEntity<List<StudentDTO>> getAllUnassignedStudentsForABatch(@RequestParam(required = true, name = "batchId") int batchId){
+        return new ResponseEntity(studentService.getAllUnassignedStudentsForABatch(batchId), HttpStatus.OK);
+    }
+
     @GetMapping({"/{studentId}"})
     public ResponseEntity<StudentDTO> getStudent(@PathVariable(required = true, name = "studentId") int studentId){
         return new ResponseEntity(studentService.getStudent(studentId), HttpStatus.OK);

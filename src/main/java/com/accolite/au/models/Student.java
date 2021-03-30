@@ -13,8 +13,15 @@ public class Student implements Serializable {
     private int studentId;
 
     @ManyToOne
-    @JoinColumn(name = "batch_id")
+    @JoinColumn(name = "batchId")
     private Batch batch;
+
+    @ManyToOne
+    @JoinColumn(name = "studentGroupId")
+    private StudentGroup studentGroup;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ProjectFeedback projectFeedback;
 
     private String firstName;
     private String lastName;
@@ -24,6 +31,22 @@ public class Student implements Serializable {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public ProjectFeedback getProjectFeedback() {
+        return projectFeedback;
+    }
+
+    public void setProjectFeedback(ProjectFeedback projectFeedback) {
+        this.projectFeedback = projectFeedback;
+    }
+
+    public StudentGroup getStudentGroup() {
+        return studentGroup;
+    }
+
+    public void setStudentGroup(StudentGroup studentGroup) {
+        this.studentGroup = studentGroup;
+    }
 
     public String getLocation() {
         return location;

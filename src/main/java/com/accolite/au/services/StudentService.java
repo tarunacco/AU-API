@@ -10,6 +10,8 @@ public interface StudentService {
 
     List<StudentDTO> getAllStudentsForABatch(int batchId);
 
+    List<StudentDTO> getAllUnassignedStudentsForABatch(int batchId);
+
     StudentDTO getStudent(int studentId);
 
     StudentDTO addOrUpdateStudentToBatch(StudentDTO studentDTO);

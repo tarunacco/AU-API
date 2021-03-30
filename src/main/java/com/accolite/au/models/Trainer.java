@@ -21,6 +21,9 @@ public class Trainer implements Serializable {
     private BusinessUnit businessUnit;
 
     @OneToOne(fetch = FetchType.LAZY)
+    private StudentGroup studentGroup;
+
+    @OneToOne(fetch = FetchType.LAZY)
     private Session session;
 
     private String trainerName;
@@ -30,6 +33,22 @@ public class Trainer implements Serializable {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public StudentGroup getStudentGroup() {
+        return studentGroup;
+    }
+
+    public void setStudentGroup(StudentGroup studentGroup) {
+        this.studentGroup = studentGroup;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
 
     public int getTrainerId() {
         return trainerId;

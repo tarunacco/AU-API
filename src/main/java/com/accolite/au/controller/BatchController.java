@@ -15,11 +15,9 @@ import java.util.List;
 @RequestMapping("/batch")
 public class BatchController {
     private final BatchService batchService;
-    private final MailerService mailerService;
 
-    public BatchController(BatchService batchService, MailerService mailerService) {
+    public BatchController(BatchService batchService) {
         this.batchService = batchService;
-        this.mailerService = mailerService;
     }
 
     @PostMapping({"/add"})

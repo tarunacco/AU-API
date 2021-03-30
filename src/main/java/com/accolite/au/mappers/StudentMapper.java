@@ -7,12 +7,16 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
 
     @Mappings({@Mapping(target = "batch", ignore = true), @Mapping(source = "studentDTO.batchId", target = "batch.batchId")})
     Student toStudent(StudentDTO studentDTO);
+
+    @Mappings({@Mapping(target = "batch", ignore = true), @Mapping(source = "studentDTO.batchId", target = "batch.batchId")})
+    Set<Student> toStudentsList(Set<StudentDTO> studentDTOList);
 
     @Mappings({@Mapping(source = "batch.batchId", target = "batchId")})
     StudentDTO toStudentDTO(Student student);
