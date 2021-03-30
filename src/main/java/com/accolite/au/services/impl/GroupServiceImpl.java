@@ -347,22 +347,21 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     }
 
     @Override
-    public ProjectFeedbackDTO assignMarks(ProjectFeedbackDTO projectFeedbackDTO, int groupId){
+    public ProjectFeedbackDTO assignMarks(ProjectFeedbackDTO projectFeedbackDTO){
         if (projectFeedbackRepository.existsById(projectFeedbackDTO.getFeedbackId())) {
             ProjectFeedback projectFeedback = projectFeedbackRepository.getOne(projectFeedbackDTO.getFeedbackId());
             projectFeedback.setMarks(projectFeedbackDTO.getMarks());
             return projectFeedbackMapper.toProjectFeedbackDTO(projectFeedbackRepository.saveAndFlush(projectFeedback));
         }
-        if(groupRepository.existsById(groupId)) {
-            ProjectFeedback projectFeedback = projectFeedbackMapper.toProjectFeedback(projectFeedbackDTO);
-            Student student = studentRepository.getOne(projectFeedback.getStudent().getStudentId());
-            student.setProjectFeedback(projectFeedback);
-            studentRepository.saveAndFlush(student);
-            StudentGroup studentGroup = groupRepository.getOne(groupId);
-            studentGroup.getProjectFeedbacks().add(projectFeedback);
-            groupRepository.saveAndFlush(studentGroup);
-            return projectFeedbackMapper.toProjectFeedbackDTO(projectFeedbackRepository.saveAndFlush(projectFeedback));
-        }
-        throw new CustomEntityNotFoundExceptionDTO("Student Group Id " + groupId + " not found");
+
+        ProjectFeedback projectFeedback = projectFeedbackMapper.toProjectFeedback(projectFeedbackDTO);
+        Student student = studentRepository.getOne(projectFeedback.getStudent().getStudentId());
+        projectFeedback.setStudentGroup(student.getStudentGroup());
+        student.setProjectFeedback(projectFeedback);
+        studentRepository.saveAndFlush(student);
+        StudentGroup studentGroup = groupRepository.getOne(student.getStudentGroup().getStudentGroupId());
+        studentGroup.getProjectFeedbacks().add(projectFeedback);
+        groupRepository.saveAndFlush(studentGroup);
+        return projectFeedbackDTO;
     }
 }
