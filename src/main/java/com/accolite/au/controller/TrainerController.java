@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/trainer")
@@ -32,6 +33,11 @@ public class TrainerController {
     @GetMapping({"/all"})
     public ResponseEntity<List<TrainerDTO>> getAllTrainers() {
         return new ResponseEntity(trainerService.getAllTrainers(), HttpStatus.OK);
+    }
+
+    @GetMapping({"/allByBUCount"})
+    public ResponseEntity<List<Map<String, ?>>> getAllTrainerPerBUCount() {
+        return new ResponseEntity(trainerService.getAllTrainerPerBUCount(), HttpStatus.OK);
     }
 
     @GetMapping({"/{trainerId}"})

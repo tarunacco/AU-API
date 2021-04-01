@@ -5,6 +5,7 @@ import com.accolite.au.dto.SuccessResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentService {
 
@@ -20,4 +21,6 @@ public interface StudentService {
 
 //    @Async
     void uploadFile(MultipartFile studentFile, int batchId);
+
+    List<Map<String, ?>> getAllStudentsCountPerLocation(int batchId);
 }

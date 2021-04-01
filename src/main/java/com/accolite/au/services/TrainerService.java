@@ -4,6 +4,7 @@ import com.accolite.au.dto.SuccessResponseDTO;
 import com.accolite.au.dto.TrainerDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TrainerService {
 
@@ -14,4 +15,6 @@ public interface TrainerService {
     TrainerDTO getTrainer(int trainerId);
 
     SuccessResponseDTO deleteTrainer(int trainerId);
+
+    List<Map<String, ?>> getAllTrainerPerBUCount();
 }

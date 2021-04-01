@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityManager;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -115,5 +116,10 @@ public class StudentServiceImpl implements StudentService {
         } catch (Exception e){
             System.out.println("Some Exception Occured!! " + e.toString());
         }
+    }
+
+    @Override
+    public List<Map<String, ?>> getAllStudentsCountPerLocation(int batchId){
+        return studentRepository.getAllStudentsCountPerLocation(batchId);
     }
 }

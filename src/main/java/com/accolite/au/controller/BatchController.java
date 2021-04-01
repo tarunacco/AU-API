@@ -26,7 +26,7 @@ public class BatchController {
     }
 
     @PutMapping({"/update"})
-    public ResponseEntity<BatchDTO> updateBatch(@Valid @RequestBody BatchDTO batch) {
+    public ResponseEntity<BatchDTO> updateBatch(@Valid @RequestBody BatchDTO batch) throws IllegalAccessException {
         return new ResponseEntity(batchService.updateBatch(batch), HttpStatus.CREATED);
     }
 

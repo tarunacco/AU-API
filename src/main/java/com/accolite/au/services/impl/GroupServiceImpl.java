@@ -177,53 +177,6 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         throw new CustomEntityNotFoundExceptionDTO("Group Id " + groupId + " not found");
     }
 
-    public boolean isValid(Field obj, ProjectFeedback obj1) throws IllegalAccessException {
-        if(obj.get(obj1) == null){
-            return false;
-        }
-        else if(obj.get(obj1) instanceof java.lang.Integer){
-            if(((Integer) obj.get(obj1)).intValue() == 0){
-                return false;
-            }
-        }
-        else if(obj.get(obj1) instanceof java.lang.String){
-            if(((String) obj.get(obj1)).compareTo("") == 0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public ProjectFeedback updateProjectFeedback(ProjectFeedback oldObject, ProjectFeedback newObject) {
-
-        for (Field field : oldObject.getClass().getDeclaredFields()) {
-            for (Field newField : newObject.getClass().getDeclaredFields()) {
-                if (field.getName().equals(newField.getName())) {
-                    try {
-                        field.setAccessible(true);
-                        newField.setAccessible(true);
-                        System.out.println(field.getName()+" :- "+field.get(oldObject)+" "+newField.get(newObject)+" "+field.get(oldObject).getClass()+" "+newField.get(newObject).getClass());
-                        ConcurrentHashMap<Object, Object> concHashMap = new ConcurrentHashMap<Object, Object>();
-                        Object newVal = isValid(newField, newObject) == false
-                                ? field.get(oldObject)
-                                : newField.get(newObject);
-                        concHashMap.put(newField.getName(), newVal);
-
-                        field.set(
-                                this,
-                                concHashMap);
-                        //System.out.println(field);
-
-                    } catch (IllegalAccessException ignore) {
-                        // Field update exception on final modifier and other cases.
-                        //System.out.println(ignore.getMessage());
-                    }
-                }
-            }
-        }
-        return oldObject;
-    }
-
     @Override
     public FeedbackDTO submitFeedback(FeedbackDTO feedbackDTO, int groupId){
         if(groupRepository.existsById(groupId)){

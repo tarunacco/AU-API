@@ -7,6 +7,7 @@ import com.accolite.au.mappers.BatchMapper;
 import com.accolite.au.models.Batch;
 import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.services.BatchService;
+import com.accolite.au.utils.ObjectMergerUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,12 @@ public class BatchServiceImpl implements BatchService {
 
     private final BatchRepository batchRepository;
     private final BatchMapper batchMapper;
+    private final ObjectMergerUtil objectMergerUtil;
 
-    public BatchServiceImpl(BatchRepository batchRepository, BatchMapper batchMapper) {
+    public BatchServiceImpl(BatchRepository batchRepository, BatchMapper batchMapper, ObjectMergerUtil objectMergerUtil) {
         this.batchRepository = batchRepository;
         this.batchMapper = batchMapper;
+        this.objectMergerUtil = objectMergerUtil;
     }
 
     @Override
@@ -54,10 +57,10 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public BatchDTO updateBatch(BatchDTO batchDTO){
+    public BatchDTO updateBatch(BatchDTO batchDTO) throws IllegalAccessException {
         if(batchRepository.existsById(batchDTO.getBatchId())) {
-            Batch batch = batchMapper.toBatch(batchDTO);
-            return batchMapper.toBatchDTO(batchRepository.saveAndFlush(batch));
+            BatchDTO updatedBatch = objectMergerUtil.merger(batchDTO, batchMapper.toBatchDTO(batchRepository.getOne(batchDTO.getBatchId())));
+            return batchMapper.toBatchDTO(batchRepository.saveAndFlush(batchMapper.toBatch(updatedBatch)));
         }
         throw new CustomEntityNotFoundExceptionDTO("Batch with id : " + batchDTO.getBatchId() + " not Found");
     }

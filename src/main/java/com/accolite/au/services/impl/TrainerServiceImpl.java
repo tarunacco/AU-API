@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TrainerServiceImpl implements TrainerService {
@@ -66,5 +67,10 @@ public class TrainerServiceImpl implements TrainerService {
             return new SuccessResponseDTO("Trainer with id : " + trainerId + " deleted Successfully", HttpStatus.OK);
         }
         throw new CustomEntityNotFoundExceptionDTO("Trainer with id : " + trainerId + " not Found");
+    }
+
+    @Override
+    public List<Map<String, ?>> getAllTrainerPerBUCount(){
+        return trainerRepository.countTrainerByBusinessUnit();
     }
 }

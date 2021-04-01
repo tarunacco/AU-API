@@ -14,6 +14,6 @@ public interface BatchService {
 
     SuccessResponseDTO deleteBatch(int batchId);
 
-    BatchDTO updateBatch(BatchDTO batchDTO);
+    BatchDTO updateBatch(BatchDTO batchDTO) throws IllegalAccessException;
 
 }
