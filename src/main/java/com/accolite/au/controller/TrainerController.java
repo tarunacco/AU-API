@@ -36,7 +36,7 @@ public class TrainerController {
     }
 
     @GetMapping({"/allByBUCount"})
-    public ResponseEntity<List<Map<String, ?>>> getAllTrainerPerBUCount() {
+    public ResponseEntity<List<Map<String, Object>>> getAllTrainerPerBUCount() {
         return new ResponseEntity(trainerService.getAllTrainerPerBUCount(), HttpStatus.OK);
     }
 

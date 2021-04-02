@@ -16,5 +16,5 @@ public interface TrainerService {
 
     SuccessResponseDTO deleteTrainer(int trainerId);
 
-    List<Map<String, ?>> getAllTrainerPerBUCount();
+    List<?> getAllTrainerPerBUCount();
 }

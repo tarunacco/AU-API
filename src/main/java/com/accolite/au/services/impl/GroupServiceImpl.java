@@ -239,29 +239,10 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
 
         // create a ObjectNode root Node
         ObjectNode rootNode = mapper.createObjectNode();
-
-        List<String[]> sessionsReport ;
-
-        //sessionsReport = sessionRepository.findAllSessions();
-        sessionsReport = sessionRepository.findAllSessionsByBatchId(batchId);
-
-        ArrayNode sessionNode = mapper.createArrayNode();
-
-        for(String[] row: sessionsReport){
-
-            ObjectNode tempSessionEntity = mapper.createObjectNode();
-            tempSessionEntity.put("sessionId", row[1]);
-            tempSessionEntity.put("sessionName", row[0]);
-            sessionNode.add(tempSessionEntity);
-        }
-
-        rootNode.set("sessions", sessionNode);
-
-        ArrayNode attendanceDataNode = mapper.createArrayNode();
+        ArrayNode finalEvaluationNode = mapper.createArrayNode();
 
         for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
-            List<String[]> tempSessions = trainingRepository.findAllSessionsForStudent(student.getStudentId()); // [['session1', 'A', 12], ['session2', 'P', 45]]
-
+            Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId());
             ObjectNode tempEntity = mapper.createObjectNode();
 
             // Creating Student JSONObject
@@ -282,20 +263,15 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
                 projectTempEntity.put("marks", projectFeedback.getMarks());
                 projectTempEntity.put("feedback", projectFeedback.getFeedback());
             }
+
             tempEntity.set("projectDetails", projectTempEntity);
-
-            for (String[] row : tempSessions) {
-                ObjectNode tempSessionEntity = mapper.createObjectNode();
-                tempSessionEntity.put("sessionName", row[1]);
-                tempSessionEntity.put("marks", row[3]);
-                tempEntity.set(row[0], tempSessionEntity);
-            }
-
-            attendanceDataNode.add(tempEntity);
+            tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage);
+            double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage;
+            totalMarks += projectFeedback == null ? 0.0 : projectFeedback.getMarks();
+            tempEntity.put("totalMarks", totalMarks);
+            finalEvaluationNode.add(tempEntity);
         }
-
-        rootNode.set("marksData", attendanceDataNode);
-
+        rootNode.set("marksData", finalEvaluationNode);
         return rootNode;
     }
 

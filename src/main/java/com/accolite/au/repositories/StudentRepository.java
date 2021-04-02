@@ -20,5 +20,5 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     List<Student> findAllByStudentInStudentsList(@Param("studentList") List<Student> studentList);
 
     @Query("SELECT student.location as location, COUNT(student) as studentPerLocation from Student as student where student.batch.batchId = :batchId group by student.location")
-    List<Map<String, ?>> getAllStudentsCountPerLocation(@Param("batchId") int batchId);
+    List<Map<String, Object>> getAllStudentsCountPerLocation(@Param("batchId") int batchId);
 }

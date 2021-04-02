@@ -22,5 +22,5 @@ public interface StudentService {
 //    @Async
     void uploadFile(MultipartFile studentFile, int batchId);
 
-    List<Map<String, ?>> getAllStudentsCountPerLocation(int batchId);
+    List<Map<String, Object>> getAllStudentsCountPerLocation(int batchId);
 }

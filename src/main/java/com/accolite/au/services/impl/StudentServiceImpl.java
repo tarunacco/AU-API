@@ -9,17 +9,18 @@ import com.accolite.au.models.Student;
 import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.StudentRepository;
 import com.accolite.au.services.StudentService;
+import com.accolite.au.utils.GlobalVariables;
 import com.accolite.au.utils.ValidatorFunctions;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import org.apache.logging.log4j.spi.ObjectThreadContextMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -28,13 +29,15 @@ public class StudentServiceImpl implements StudentService {
     private final BatchRepository batchRepository;
     private final StudentMapper studentMapper;
     private final ValidatorFunctions validatorFunctions;
+    private final GlobalVariables globalVariables;
 
-    public StudentServiceImpl(StudentRepository studentRepository, EntityManager entityManager, BatchRepository batchRepository, StudentMapper studentMapper, ValidatorFunctions validatorFunctions) {
+    public StudentServiceImpl(StudentRepository studentRepository, EntityManager entityManager, BatchRepository batchRepository, StudentMapper studentMapper, ValidatorFunctions validatorFunctions, GlobalVariables globalVariables) {
         this.studentRepository = studentRepository;
         this.entityManager = entityManager;
         this.batchRepository = batchRepository;
         this.studentMapper = studentMapper;
         this.validatorFunctions = validatorFunctions;
+        this.globalVariables = globalVariables;
     }
 
     @Override
@@ -114,12 +117,34 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
         } catch (Exception e){
-            System.out.println("Some Exception Occured!! " + e.toString());
+            System.out.println("Some Exception Occurred!! " + e.toString());
         }
     }
 
+    private Map<String, Object> findIfLocationExists(List<Map<String, Object>> studentsCountPerLocation, String location){
+        for(Map<String, Object> entry : studentsCountPerLocation){
+            //System.out.println("Incoming Parent");
+            Set<Map.Entry<String, Object>> locationsSet = entry.entrySet();
+            for(Map.Entry<String, Object> entry1 : locationsSet){
+                if(entry1.getKey().compareTo("location") == 0 && entry1.getValue().toString().compareTo(location) == 0){
+                    return entry;
+                }
+            }
+        }
+        return new HashMap(){{
+            put("location", location);
+            put("studentPerLocation", 0);
+        }};
+    }
+
     @Override
-    public List<Map<String, ?>> getAllStudentsCountPerLocation(int batchId){
-        return studentRepository.getAllStudentsCountPerLocation(batchId);
+    public List<Map<String, Object>> getAllStudentsCountPerLocation(int batchId){
+        List<Map<String, Object>> studentsCountPerLocation = studentRepository.getAllStudentsCountPerLocation(batchId);
+        System.out.println(studentsCountPerLocation);
+        List<Map<String, Object>> finalStudentsCountPerLocation = new ArrayList();
+        for(String location : globalVariables.getLocations()){
+            finalStudentsCountPerLocation.add(findIfLocationExists(studentsCountPerLocation, location));
+        }
+        return finalStudentsCountPerLocation;
     }
 }

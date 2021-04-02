@@ -44,7 +44,7 @@ public class StudentController {
     }
 
     @GetMapping({"/allPerLocation"})
-    public ResponseEntity<List<Map<String, ?>>> getAllStudentsCountPerLocation(@RequestParam(required = true, name = "batchId") int batchId){
+    public ResponseEntity<List<Map<String, Object>>> getAllStudentsCountPerLocation(@RequestParam(required = true, name = "batchId") int batchId){
         return new ResponseEntity(studentService.getAllStudentsCountPerLocation(batchId), HttpStatus.OK);
     }
 
