@@ -1,23 +1,26 @@
 package com.accolite.au.services.impl;
 
 import com.accolite.au.dto.*;
+import com.accolite.au.mappers.EduthrillSessionMapper;
 import com.accolite.au.mappers.ProjectFeedbackMapper;
 import com.accolite.au.mappers.StudentGroupMapper;
 import com.accolite.au.mappers.StudentMapper;
 import com.accolite.au.models.*;
 import com.accolite.au.repositories.*;
+import com.accolite.au.services.EduthrillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.lang.reflect.Field;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class GroupServiceImpl implements com.accolite.au.services.GroupService {
@@ -32,8 +35,11 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     private final ProjectFeedbackMapper projectFeedbackMapper;
     private final SessionRepository sessionRepository;
     private final TrainingRepository trainingRepository;
+    private final EduthrillSessionMapper eduthrillSessionMapper;
+    private final EduthrillSessionRepository eduthrillSessionRepository;
+    private final EduthrillService eduthrillService;
 
-    public GroupServiceImpl(GroupRepository groupRepository, StudentGroupMapper studentGroupMapper, BatchRepository batchRepository, StudentRepository studentRepository, TrainerRepository trainerRepository, StudentMapper studentMapper, EntityManager entityManager, ProjectFeedbackRepository projectFeedbackRepository, ProjectFeedbackMapper projectFeedbackMapper, SessionRepository sessionRepository, TrainingRepository trainingRepository) {
+    public GroupServiceImpl(GroupRepository groupRepository, StudentGroupMapper studentGroupMapper, BatchRepository batchRepository, StudentRepository studentRepository, TrainerRepository trainerRepository, StudentMapper studentMapper, EntityManager entityManager, ProjectFeedbackRepository projectFeedbackRepository, ProjectFeedbackMapper projectFeedbackMapper, SessionRepository sessionRepository, TrainingRepository trainingRepository, EduthrillSessionMapper eduthrillSessionMapper, EduthrillSessionRepository eduthrillSessionRepository, @Lazy EduthrillService eduthrillService) {
         this.groupRepository = groupRepository;
         this.studentGroupMapper = studentGroupMapper;
         this.batchRepository = batchRepository;
@@ -45,6 +51,9 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         this.projectFeedbackMapper = projectFeedbackMapper;
         this.sessionRepository = sessionRepository;
         this.trainingRepository = trainingRepository;
+        this.eduthrillSessionMapper = eduthrillSessionMapper;
+        this.eduthrillSessionRepository = eduthrillSessionRepository;
+        this.eduthrillService = eduthrillService;
     }
 
     @Override
@@ -177,53 +186,6 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         throw new CustomEntityNotFoundExceptionDTO("Group Id " + groupId + " not found");
     }
 
-    public boolean isValid(Field obj, ProjectFeedback obj1) throws IllegalAccessException {
-        if(obj.get(obj1) == null){
-            return false;
-        }
-        else if(obj.get(obj1) instanceof java.lang.Integer){
-            if(((Integer) obj.get(obj1)).intValue() == 0){
-                return false;
-            }
-        }
-        else if(obj.get(obj1) instanceof java.lang.String){
-            if(((String) obj.get(obj1)).compareTo("") == 0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public ProjectFeedback updateProjectFeedback(ProjectFeedback oldObject, ProjectFeedback newObject) {
-
-        for (Field field : oldObject.getClass().getDeclaredFields()) {
-            for (Field newField : newObject.getClass().getDeclaredFields()) {
-                if (field.getName().equals(newField.getName())) {
-                    try {
-                        field.setAccessible(true);
-                        newField.setAccessible(true);
-                        System.out.println(field.getName()+" :- "+field.get(oldObject)+" "+newField.get(newObject)+" "+field.get(oldObject).getClass()+" "+newField.get(newObject).getClass());
-                        ConcurrentHashMap<Object, Object> concHashMap = new ConcurrentHashMap<Object, Object>();
-                        Object newVal = isValid(newField, newObject) == false
-                                ? field.get(oldObject)
-                                : newField.get(newObject);
-                        concHashMap.put(newField.getName(), newVal);
-
-                        field.set(
-                                this,
-                                concHashMap);
-                        //System.out.println(field);
-
-                    } catch (IllegalAccessException ignore) {
-                        // Field update exception on final modifier and other cases.
-                        //System.out.println(ignore.getMessage());
-                    }
-                }
-            }
-        }
-        return oldObject;
-    }
-
     @Override
     public FeedbackDTO submitFeedback(FeedbackDTO feedbackDTO, int groupId){
         if(groupRepository.existsById(groupId)){
@@ -286,29 +248,10 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
 
         // create a ObjectNode root Node
         ObjectNode rootNode = mapper.createObjectNode();
-
-        List<String[]> sessionsReport ;
-
-        //sessionsReport = sessionRepository.findAllSessions();
-        sessionsReport = sessionRepository.findAllSessionsByBatchId(batchId);
-
-        ArrayNode sessionNode = mapper.createArrayNode();
-
-        for(String[] row: sessionsReport){
-
-            ObjectNode tempSessionEntity = mapper.createObjectNode();
-            tempSessionEntity.put("sessionId", row[1]);
-            tempSessionEntity.put("sessionName", row[0]);
-            sessionNode.add(tempSessionEntity);
-        }
-
-        rootNode.set("sessions", sessionNode);
-
-        ArrayNode attendanceDataNode = mapper.createArrayNode();
+        ArrayNode finalEvaluationNode = mapper.createArrayNode();
 
         for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
-            List<String[]> tempSessions = trainingRepository.findAllSessionsForStudent(student.getStudentId()); // [['session1', 'A', 12], ['session2', 'P', 45]]
-
+            Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId());
             ObjectNode tempEntity = mapper.createObjectNode();
 
             // Creating Student JSONObject
@@ -320,6 +263,24 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             tempStudentEntity.put("studentId", student.getStudentId());
             tempEntity.put("student", tempStudentEntity.toString());
 
+            Set<EduthrillSessionDTO> eduthrillSessions = eduthrillSessionMapper.toEduthrillSessionDTOs(student.getEduthrillSessions());
+            System.out.println(student.getEduthrillSessions());
+            System.out.println(eduthrillSessions);
+            //ArrayNode eduthrillSessionsNodes = mapper.createArrayNode();
+            for(EduthrillSessionDTO eduthrillSessionDTO : eduthrillSessions){
+                ObjectNode tempTestEntity = mapper.createObjectNode();
+                tempTestEntity.put("eduthrillSessionId", eduthrillSessionDTO.getEduthrillSessionId());
+                tempTestEntity.put("marks", eduthrillSessionDTO.getMarks());
+                tempTestEntity.put("studentId", eduthrillSessionDTO.getStudentId());
+                tempTestEntity.put("eduthrillTestId", eduthrillSessionDTO.getEduthrillTestId());
+                tempTestEntity.put("timestamp", eduthrillSessionDTO.getTimestamp().toString());
+
+                tempEntity.set(String.valueOf(eduthrillSessionDTO.getEduthrillTestId()), tempTestEntity);
+                //eduthrillSessionsNodes.add(tempTestEntity);
+
+            }
+            //tempEntity.set("eduthrillSessions", eduthrillSessionsNodes);
+
             tempEntity.set("student", tempStudentEntity);
             ProjectFeedback projectFeedback = projectFeedbackRepository.containsStudentFeedback(student.getStudentId());
 
@@ -329,20 +290,32 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
                 projectTempEntity.put("marks", projectFeedback.getMarks());
                 projectTempEntity.put("feedback", projectFeedback.getFeedback());
             }
+
             tempEntity.set("projectDetails", projectTempEntity);
-
-            for (String[] row : tempSessions) {
-                ObjectNode tempSessionEntity = mapper.createObjectNode();
-                tempSessionEntity.put("sessionName", row[1]);
-                tempSessionEntity.put("marks", row[3]);
-                tempEntity.set(row[0], tempSessionEntity);
+            tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage);
+            double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage;
+            totalMarks += projectFeedback == null ? 0.0 : projectFeedback.getMarks();
+            Double eduMarks = eduthrillSessionRepository.findFollowingEduthrillSessionsAverage(student.getStudentId());
+            System.out.println(eduMarks);
+            if(eduMarks != null) {
+                totalMarks += eduthrillSessionRepository.findFollowingEduthrillSessionsAverage(student.getStudentId());
             }
-
-            attendanceDataNode.add(tempEntity);
+            tempEntity.put("totalMarks", totalMarks);
+            finalEvaluationNode.add(tempEntity);
         }
+        rootNode.set("marksData", finalEvaluationNode);
 
-        rootNode.set("marksData", attendanceDataNode);
-
+        List<EduthrillTestDTO> eduthrillTestDTOs = eduthrillService.getAllEduthrillTest();
+        ArrayNode eduthrillTestsNode = mapper.createArrayNode();
+        for(EduthrillTestDTO eduthrillTestDTO: eduthrillTestDTOs){
+            ObjectNode tempTestEntity = mapper.createObjectNode();
+            tempTestEntity.put("eduthrillTestId", eduthrillTestDTO.getEduthrillTestId());
+            tempTestEntity.put("testName", eduthrillTestDTO.getTestName());
+            tempTestEntity.put("testId", eduthrillTestDTO.getTestId());
+            tempTestEntity.put("createdOn", eduthrillTestDTO.getCreatedOn().toString());
+            eduthrillTestsNode.add(tempTestEntity);
+        }
+        rootNode.set("eduthrillSessionsData", eduthrillTestsNode);
         return rootNode;
     }
 

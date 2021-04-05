@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/student")
@@ -40,6 +41,11 @@ public class StudentController {
     @GetMapping({"/all"})
     public ResponseEntity<List<StudentDTO>> getAllStudentsForABatch(@RequestParam(required = true, name = "batchId") int batchId){
         return new ResponseEntity(studentService.getAllStudentsForABatch(batchId), HttpStatus.OK);
+    }
+
+    @GetMapping({"/allPerLocation"})
+    public ResponseEntity<List<Map<String, Object>>> getAllStudentsCountPerLocation(@RequestParam(required = true, name = "batchId") int batchId){
+        return new ResponseEntity(studentService.getAllStudentsCountPerLocation(batchId), HttpStatus.OK);
     }
 
     @GetMapping({"/allUnassigned"})

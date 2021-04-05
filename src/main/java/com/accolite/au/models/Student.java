@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 public class Student implements Serializable {
@@ -23,6 +24,9 @@ public class Student implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ProjectFeedback projectFeedback;
 
+    @OneToMany(targetEntity = EduthrillSession.class, mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<EduthrillSession> eduthrillSessions;
+
     private String firstName;
     private String lastName;
     private String skypeId;
@@ -31,6 +35,14 @@ public class Student implements Serializable {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public Set<EduthrillSession> getEduthrillSessions() {
+        return eduthrillSessions;
+    }
+
+    public void setEduthrillSession(Set<EduthrillSession> eduthrillSessions) {
+        this.eduthrillSessions = eduthrillSessions;
+    }
 
     public ProjectFeedback getProjectFeedback() {
         return projectFeedback;

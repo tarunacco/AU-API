@@ -10,12 +10,22 @@ import com.accolite.au.repositories.BatchRepository;
 import com.accolite.au.repositories.BusinessUnitRepository;
 import com.accolite.au.repositories.TrainerRepository;
 import com.accolite.au.services.TrainerService;
+import org.apache.commons.collections.map.TypedMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TrainerServiceImpl implements TrainerService {
@@ -66,5 +76,19 @@ public class TrainerServiceImpl implements TrainerService {
             return new SuccessResponseDTO("Trainer with id : " + trainerId + " deleted Successfully", HttpStatus.OK);
         }
         throw new CustomEntityNotFoundExceptionDTO("Trainer with id : " + trainerId + " not Found");
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllTrainerPerBUCount(){
+        List<Object[]> res = entityManager.createQuery("SELECT bU.buId as bUId, bU.buName as buName, COUNT(trainer.businessUnit.buId) as trainerPerBU from Trainer as trainer RIGHT JOIN BusinessUnit as bU on trainer.businessUnit.buId = bU.buId group by bU.buId").getResultList();
+        List<Map<String, Object>> trainerPerBUCount = new ArrayList();
+        for(Object obj[]: res){
+            Map<String, Object> tempMap = new HashMap();
+            tempMap.put("buId", obj[0]);
+            tempMap.put("buName", obj[1]);
+            tempMap.put("trainerPerBU", obj[2]);
+            trainerPerBUCount.add(tempMap);
+        }
+        return trainerPerBUCount;
     }
 }
