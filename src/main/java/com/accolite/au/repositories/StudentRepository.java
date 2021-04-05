@@ -16,6 +16,8 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     @Query("SELECT s from Student s where s.batch.batchId = :batchId and s.studentGroup IS NULL")
     List<Student> findAllByBatch_BatchIdWhereStudentGroupIsNull(int batchId);
 
+    Student findStudentByEmailId(String email);
+
     @Query("SELECT s from Student s where s not in (:studentList) and s.studentGroup IS NULL")
     List<Student> findAllByStudentInStudentsList(@Param("studentList") List<Student> studentList);
 

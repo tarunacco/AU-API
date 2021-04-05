@@ -1,23 +1,26 @@
 package com.accolite.au.services.impl;
 
 import com.accolite.au.dto.*;
+import com.accolite.au.mappers.EduthrillSessionMapper;
 import com.accolite.au.mappers.ProjectFeedbackMapper;
 import com.accolite.au.mappers.StudentGroupMapper;
 import com.accolite.au.mappers.StudentMapper;
 import com.accolite.au.models.*;
 import com.accolite.au.repositories.*;
+import com.accolite.au.services.EduthrillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.lang.reflect.Field;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class GroupServiceImpl implements com.accolite.au.services.GroupService {
@@ -32,8 +35,11 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
     private final ProjectFeedbackMapper projectFeedbackMapper;
     private final SessionRepository sessionRepository;
     private final TrainingRepository trainingRepository;
+    private final EduthrillSessionMapper eduthrillSessionMapper;
+    private final EduthrillSessionRepository eduthrillSessionRepository;
+    private final EduthrillService eduthrillService;
 
-    public GroupServiceImpl(GroupRepository groupRepository, StudentGroupMapper studentGroupMapper, BatchRepository batchRepository, StudentRepository studentRepository, TrainerRepository trainerRepository, StudentMapper studentMapper, EntityManager entityManager, ProjectFeedbackRepository projectFeedbackRepository, ProjectFeedbackMapper projectFeedbackMapper, SessionRepository sessionRepository, TrainingRepository trainingRepository) {
+    public GroupServiceImpl(GroupRepository groupRepository, StudentGroupMapper studentGroupMapper, BatchRepository batchRepository, StudentRepository studentRepository, TrainerRepository trainerRepository, StudentMapper studentMapper, EntityManager entityManager, ProjectFeedbackRepository projectFeedbackRepository, ProjectFeedbackMapper projectFeedbackMapper, SessionRepository sessionRepository, TrainingRepository trainingRepository, EduthrillSessionMapper eduthrillSessionMapper, EduthrillSessionRepository eduthrillSessionRepository, @Lazy EduthrillService eduthrillService) {
         this.groupRepository = groupRepository;
         this.studentGroupMapper = studentGroupMapper;
         this.batchRepository = batchRepository;
@@ -45,6 +51,9 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         this.projectFeedbackMapper = projectFeedbackMapper;
         this.sessionRepository = sessionRepository;
         this.trainingRepository = trainingRepository;
+        this.eduthrillSessionMapper = eduthrillSessionMapper;
+        this.eduthrillSessionRepository = eduthrillSessionRepository;
+        this.eduthrillService = eduthrillService;
     }
 
     @Override
@@ -254,6 +263,24 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             tempStudentEntity.put("studentId", student.getStudentId());
             tempEntity.put("student", tempStudentEntity.toString());
 
+            Set<EduthrillSessionDTO> eduthrillSessions = eduthrillSessionMapper.toEduthrillSessionDTOs(student.getEduthrillSessions());
+            System.out.println(student.getEduthrillSessions());
+            System.out.println(eduthrillSessions);
+            //ArrayNode eduthrillSessionsNodes = mapper.createArrayNode();
+            for(EduthrillSessionDTO eduthrillSessionDTO : eduthrillSessions){
+                ObjectNode tempTestEntity = mapper.createObjectNode();
+                tempTestEntity.put("eduthrillSessionId", eduthrillSessionDTO.getEduthrillSessionId());
+                tempTestEntity.put("marks", eduthrillSessionDTO.getMarks());
+                tempTestEntity.put("studentId", eduthrillSessionDTO.getStudentId());
+                tempTestEntity.put("eduthrillTestId", eduthrillSessionDTO.getEduthrillTestId());
+                tempTestEntity.put("timestamp", eduthrillSessionDTO.getTimestamp().toString());
+
+                tempEntity.set(String.valueOf(eduthrillSessionDTO.getEduthrillTestId()), tempTestEntity);
+                //eduthrillSessionsNodes.add(tempTestEntity);
+
+            }
+            //tempEntity.set("eduthrillSessions", eduthrillSessionsNodes);
+
             tempEntity.set("student", tempStudentEntity);
             ProjectFeedback projectFeedback = projectFeedbackRepository.containsStudentFeedback(student.getStudentId());
 
@@ -268,10 +295,27 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage);
             double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage;
             totalMarks += projectFeedback == null ? 0.0 : projectFeedback.getMarks();
+            Double eduMarks = eduthrillSessionRepository.findFollowingEduthrillSessionsAverage(student.getStudentId());
+            System.out.println(eduMarks);
+            if(eduMarks != null) {
+                totalMarks += eduthrillSessionRepository.findFollowingEduthrillSessionsAverage(student.getStudentId());
+            }
             tempEntity.put("totalMarks", totalMarks);
             finalEvaluationNode.add(tempEntity);
         }
         rootNode.set("marksData", finalEvaluationNode);
+
+        List<EduthrillTestDTO> eduthrillTestDTOs = eduthrillService.getAllEduthrillTest();
+        ArrayNode eduthrillTestsNode = mapper.createArrayNode();
+        for(EduthrillTestDTO eduthrillTestDTO: eduthrillTestDTOs){
+            ObjectNode tempTestEntity = mapper.createObjectNode();
+            tempTestEntity.put("eduthrillTestId", eduthrillTestDTO.getEduthrillTestId());
+            tempTestEntity.put("testName", eduthrillTestDTO.getTestName());
+            tempTestEntity.put("testId", eduthrillTestDTO.getTestId());
+            tempTestEntity.put("createdOn", eduthrillTestDTO.getCreatedOn().toString());
+            eduthrillTestsNode.add(tempTestEntity);
+        }
+        rootNode.set("eduthrillSessionsData", eduthrillTestsNode);
         return rootNode;
     }
 
