@@ -158,7 +158,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         if(groupRepository.existsById(groupId) && studentRepository.existsById(studentId)){
             if(studentRepository.getOne(studentId).getStudentGroup() != null &&
                     studentRepository.getOne(studentId).getStudentGroup().getStudentGroupId() == groupId) {
-                
+
                 StudentGroup studentGroup = groupRepository.getOne(groupId);
                 Student student = studentRepository.getOne(studentId);
                 studentGroup.getStudents().remove(student);
@@ -239,15 +239,17 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         throw new CustomEntityNotFoundExceptionDTO("Feedback Id " + feedbackId + " not found");
     }
 
-    private int findStudentAttendance(List<Map<String, Integer>> findSessionsAttendancePerStudent, int studentId){
-        for(Map<String, Integer> student : findSessionsAttendancePerStudent){
-            System.out.println(studentId+" "+student);
-            if(student.containsKey(studentId)){
-                return student.get(studentId);
-            }
-        }
-        return 0;
-    }
+//    private int findStudentAttendance(List<Map<Integer, Integer>> findSessionsAttendancePerStudent, int studentId){
+//        for(Map<Integer, Integer> student : findSessionsAttendancePerStudent){
+//            for(Map.Entry<Integer, Integer> entry : student.entrySet()) {
+//            	System.out.println(entry+ "entry ");
+//            	if(entry.getKey() == studentId) {
+//            		return entry.getValue();
+//            	}
+//            }
+//        }
+//        return 0;
+//    }
 
     @Override
     public ObjectNode getAllFinalEvaluationData(int batchId){
@@ -258,8 +260,8 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         ObjectNode rootNode = mapper.createObjectNode();
         ArrayNode finalEvaluationNode = mapper.createArrayNode();
 
-        List<Map<String, Integer>> findSessionsAttendancePerStudent = trainingRepository.findSessionsAttendancePerStudent();
-        System.out.println("1"+findSessionsAttendancePerStudent);
+//        List<Map<Integer, Integer>> findSessionsAttendancePerStudent = trainingRepository.findSessionsAttendancePerStudent();
+//        System.out.println("1"+findSessionsAttendancePerStudent);
 
         for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
             Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId());
@@ -273,7 +275,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             tempStudentEntity.put("studentLastName", student.getLastName());
             tempStudentEntity.put("studentId", student.getStudentId());
             tempEntity.put("student", tempStudentEntity.toString());
-            tempEntity.put("studentSessionAttendance", findStudentAttendance(findSessionsAttendancePerStudent, student.getStudentId()));
+            tempEntity.put("studentSessionAttendance", trainingRepository.findSessionsAttendancePerStudent(student.getStudentId()));
 
             Set<EduthrillSessionDTO> eduthrillSessions = eduthrillSessionMapper.toEduthrillSessionDTOs(student.getEduthrillSessions());
             System.out.println(student.getEduthrillSessions());
