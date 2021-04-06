@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class GroupServiceImpl implements com.accolite.au.services.GroupService {
@@ -241,6 +239,16 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         throw new CustomEntityNotFoundExceptionDTO("Feedback Id " + feedbackId + " not found");
     }
 
+    private int findStudentAttendance(List<Map<String, Integer>> findSessionsAttendancePerStudent, int studentId){
+        for(Map<String, Integer> student : findSessionsAttendancePerStudent){
+            System.out.println(studentId+" "+student);
+            if(student.containsKey(studentId)){
+                return student.get(studentId);
+            }
+        }
+        return 0;
+    }
+
     @Override
     public ObjectNode getAllFinalEvaluationData(int batchId){
         // Object Mapper
@@ -249,6 +257,9 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
         // create a ObjectNode root Node
         ObjectNode rootNode = mapper.createObjectNode();
         ArrayNode finalEvaluationNode = mapper.createArrayNode();
+
+        List<Map<String, Integer>> findSessionsAttendancePerStudent = trainingRepository.findSessionsAttendancePerStudent();
+        System.out.println("1"+findSessionsAttendancePerStudent);
 
         for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
             Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId());
@@ -262,6 +273,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             tempStudentEntity.put("studentLastName", student.getLastName());
             tempStudentEntity.put("studentId", student.getStudentId());
             tempEntity.put("student", tempStudentEntity.toString());
+            tempEntity.put("studentSessionAttendance", findStudentAttendance(findSessionsAttendancePerStudent, student.getStudentId()));
 
             Set<EduthrillSessionDTO> eduthrillSessions = eduthrillSessionMapper.toEduthrillSessionDTOs(student.getEduthrillSessions());
             System.out.println(student.getEduthrillSessions());
