@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TrainingRepository extends JpaRepository<Training, TrainingEmbeddableId> {
 
@@ -26,6 +27,12 @@ public interface TrainingRepository extends JpaRepository<Training, TrainingEmbe
 
     @Query("SELECT COUNT(t.session.sessionId), t.session.sessionId, t.session.sessionName FROM Training AS t WHERE t.status = 'P' GROUP BY t.session.sessionId")
     List<String[]> findAllSessionsAttendeesCount();
+
+    @Query("SELECT t.student.studentId, COUNT(t) FROM Training AS t WHERE t.status = 'P' GROUP BY t.student.studentId")
+    List<Map<Integer, Integer>> findSessionsAttendancePerStudent();
+
+    @Query("SELECT COUNT(t) FROM Training AS t WHERE t.status = 'P' AND t.student.studentId = :studentId")
+    Integer findSessionsAttendancePerStudent(int studentId);
 
     // JOIN QUERY
     //    SELECT s.session_name, s.session_id, tr.total_atten FROM session as s LEFT JOIN (SELECT COUNT(t.session_session_id) as total_atten, t.session_session_id FROM training as t WHERE t.status = 'P' GROUP BY t.session_session_id) as tr ON s.session_id = tr.session_session_id;
