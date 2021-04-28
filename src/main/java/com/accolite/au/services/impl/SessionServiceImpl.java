@@ -95,7 +95,7 @@ public class SessionServiceImpl implements SessionService {
                 return false;
             }
             if(i == 5) {
-                String col[] = row[i].split(",");
+                String[] col = row[i].split(",");
                 for(String tempCol : col){
                     if (validatorFunctions.emailValidator(tempCol.trim()) == false) {
                         return false;
@@ -109,15 +109,12 @@ public class SessionServiceImpl implements SessionService {
                 }
             }
         }
-        if(row.length >= 7)
-            return true;
-
-        return false;
+        return row.length >= 7;
     }
 
     // Finding Slots From Slot String -> 2 PM – 6 PM
     private String findSlot(String data){
-        String splitData[] = data.split(" ");
+        String[] splitData = data.split(" ");
         if(splitData.length >= 1){
             return splitData[1].toLowerCase().compareTo("pm") == 0 ? "A" : "M";
         }
@@ -126,7 +123,7 @@ public class SessionServiceImpl implements SessionService {
 
     // Finding Which is BU Is From this , separated column values
     private BusinessUnitDTO findWhichIsBUEmail(String row){
-        String splitData[] = row.split(",");
+        String[] splitData = row.split(",");
         for(String ele : splitData){
             List<BusinessUnitDTO> bUs= businessUnitMapper.toBusinessUnitDTOs(businessUnitRepository.findAllByBuHeadEmail(ele.trim()));
             if(bUs.size() > 0){
@@ -136,9 +133,9 @@ public class SessionServiceImpl implements SessionService {
         return null;
     }
 
-    // Finding Which is RM Email Is From this , seperated column values
+    // Finding Which is RM Email Is From this , separated column values
     private String findRMEmailId(String email, String row){
-        String splitData[] = row.split(",");
+        String[] splitData = row.split(",");
         for(String ele : splitData){
             if(ele.trim().compareTo(email) != 0){
                 return ele.trim();

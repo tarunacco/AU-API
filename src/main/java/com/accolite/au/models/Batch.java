@@ -29,7 +29,7 @@ public class Batch implements Serializable {
     private Set<Session> sessions = new HashSet<>();
 
     @OneToMany(targetEntity = StudentGroup.class, mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudentGroup> studentGroups = new HashSet<>();
+    private final Set<StudentGroup> studentGroups = new HashSet<>();
 
     private Date startDate;
 
