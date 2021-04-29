@@ -6,9 +6,9 @@ import java.sql.Timestamp;
 import java.util.Map;
 
 public class ExceptionDetailsDTO {
-    private Map<String, String> errors;
-    private Timestamp timestamp;
-    private HttpStatus status;
+    private final Map<String, String> errors;
+    private final Timestamp timestamp;
+    private final HttpStatus status;
 
     public ExceptionDetailsDTO(Map<String, String> errors, Timestamp timestamp, HttpStatus status) {
         this.errors = errors;

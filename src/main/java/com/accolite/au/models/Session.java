@@ -28,11 +28,20 @@ public class Session {
     private String classroomTopicId;
     private String classroomTopicName;
     private String calendarInviteLink;
+    private String googleFormId;
     private Timestamp calendarInviteTMSTP;
     private Timestamp emailInviteTMSTP;
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public String getGoogleFormId() {
+        return googleFormId;
+    }
+
+    public void setGoogleFormId(String googleFormId) {
+        this.googleFormId = googleFormId;
+    }
 
     public int getSessionId() {
         return sessionId;

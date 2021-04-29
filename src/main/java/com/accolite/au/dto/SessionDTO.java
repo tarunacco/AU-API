@@ -38,6 +38,7 @@ public class SessionDTO {
     private String daySlot;
     private String classroomTopicId;
     private String classroomTopicName;
+    private String googleFormId;
     private String calenderInviteLink;
     private Timestamp calendarInviteTMSTP;
     private Timestamp emailInviteTMSTP;
@@ -50,6 +51,13 @@ public class SessionDTO {
     @CreationTimestamp
     private Timestamp createdOn;
 
+    public String getGoogleFormId() {
+        return googleFormId;
+    }
+
+    public void setGoogleFormId(String googleFormId) {
+        this.googleFormId = googleFormId;
+    }
 
     public int getSessionId() {
         return sessionId;

@@ -35,6 +35,6 @@ public interface TrainingRepository extends JpaRepository<Training, TrainingEmbe
     Integer findSessionsAttendancePerStudent(int studentId);
 
     // JOIN QUERY
-    //    SELECT s.session_name, s.session_id, tr.total_atten FROM session as s LEFT JOIN (SELECT COUNT(t.session_session_id) as total_atten, t.session_session_id FROM training as t WHERE t.status = 'P' GROUP BY t.session_session_id) as tr ON s.session_id = tr.session_session_id;
+    //    SELECT s.session_name, s.session_id, tr.total_attend FROM session as s LEFT JOIN (SELECT COUNT(t.session_session_id) as total_atten, t.session_session_id FROM training as t WHERE t.status = 'P' GROUP BY t.session_session_id) as tr ON s.session_id = tr.session_session_id;
 
 }

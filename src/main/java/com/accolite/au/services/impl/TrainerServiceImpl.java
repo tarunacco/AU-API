@@ -82,7 +82,7 @@ public class TrainerServiceImpl implements TrainerService {
     public List<Map<String, Object>> getAllTrainerPerBUCount(){
         List<Object[]> res = entityManager.createQuery("SELECT bU.buId as bUId, bU.buName as buName, COUNT(trainer.businessUnit.buId) as trainerPerBU from Trainer as trainer RIGHT JOIN BusinessUnit as bU on trainer.businessUnit.buId = bU.buId group by bU.buId").getResultList();
         List<Map<String, Object>> trainerPerBUCount = new ArrayList();
-        for(Object obj[]: res){
+        for(Object[] obj : res){
             Map<String, Object> tempMap = new HashMap();
             tempMap.put("buId", obj[0]);
             tempMap.put("buName", obj[1]);
