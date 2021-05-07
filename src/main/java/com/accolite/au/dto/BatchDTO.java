@@ -17,6 +17,8 @@ public class BatchDTO {
     private String classroomLink;
     private String courseGroupEmail;
     private String classroomName;
+    private String googleDriveId;
+    private String googleDriveLink;
 
     @NotNull(message = "startDate Should be provided")
     private Date startDate;
@@ -26,6 +28,22 @@ public class BatchDTO {
 
     @CreationTimestamp
     private Timestamp createdOn;
+
+    public String getGoogleDriveId() {
+        return googleDriveId;
+    }
+
+    public void setGoogleDriveId(String googleDriveId) {
+        this.googleDriveId = googleDriveId;
+    }
+
+    public String getGoogleDriveLink() {
+        return googleDriveLink;
+    }
+
+    public void setGoogleDriveLink(String googleDriveLink) {
+        this.googleDriveLink = googleDriveLink;
+    }
 
     public int getBatchId() {
         return batchId;

@@ -263,6 +263,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
 //        List<Map<Integer, Integer>> findSessionsAttendancePerStudent = trainingRepository.findSessionsAttendancePerStudent();
 //        System.out.println("1"+findSessionsAttendancePerStudent);
 
+        Double totalSessions = (double)(sessionRepository.findAll().size());
         for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
             Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId());
             ObjectNode tempEntity = mapper.createObjectNode();
@@ -306,8 +307,8 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             }
 
             tempEntity.set("projectDetails", projectTempEntity);
-            tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage);
-            double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage;
+            tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage / totalSessions);
+            double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage / totalSessions;
             totalMarks += projectFeedback == null ? 0.0 : projectFeedback.getMarks();
             Double eduMarks = eduthrillSessionRepository.findFollowingEduthrillSessionsAverage(student.getStudentId());
             System.out.println(eduMarks);
