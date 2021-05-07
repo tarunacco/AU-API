@@ -308,7 +308,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
 
             tempEntity.set("projectDetails", projectTempEntity);
             tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage / totalSessions);
-            double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage;
+            double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage / totalSessions;
             totalMarks += projectFeedback == null ? 0.0 : projectFeedback.getMarks();
             Double eduMarks = eduthrillSessionRepository.findFollowingEduthrillSessionsAverage(student.getStudentId());
             System.out.println(eduMarks);
