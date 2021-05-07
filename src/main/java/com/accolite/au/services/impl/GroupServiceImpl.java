@@ -263,8 +263,9 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
 //        List<Map<Integer, Integer>> findSessionsAttendancePerStudent = trainingRepository.findSessionsAttendancePerStudent();
 //        System.out.println("1"+findSessionsAttendancePerStudent);
 
+        Double totalSessions = (double)(sessionRepository.findAll().size());
         for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
-            Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId());
+            Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId()) / totalSessions;
             ObjectNode tempEntity = mapper.createObjectNode();
 
             // Creating Student JSONObject
