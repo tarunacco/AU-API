@@ -265,7 +265,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
 
         Double totalSessions = (double)(sessionRepository.findAll().size());
         for (Student student : studentRepository.findAllByBatch_BatchIdOrderByFirstNameAsc(batchId)) {
-            Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId()) / totalSessions;
+            Double studentAssignmentsAverage = trainingRepository.findAllSessionsForStudentAnalysis(student.getStudentId());
             ObjectNode tempEntity = mapper.createObjectNode();
 
             // Creating Student JSONObject
@@ -307,7 +307,7 @@ public class GroupServiceImpl implements com.accolite.au.services.GroupService {
             }
 
             tempEntity.set("projectDetails", projectTempEntity);
-            tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage);
+            tempEntity.put("assignmentAverage", studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage / totalSessions);
             double totalMarks = studentAssignmentsAverage == null ? 0.0 : studentAssignmentsAverage;
             totalMarks += projectFeedback == null ? 0.0 : projectFeedback.getMarks();
             Double eduMarks = eduthrillSessionRepository.findFollowingEduthrillSessionsAverage(student.getStudentId());
