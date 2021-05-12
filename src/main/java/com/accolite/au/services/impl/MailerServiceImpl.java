@@ -94,7 +94,7 @@ public class MailerServiceImpl implements MailerService {
                             "  <li>Have a Q & A session.</li>" +
                             "<li>Ensure to have hands-on for the sessions wherever applicable.</li>"+
                             "<li>Provide an assignment to the AU�rs and share the evaluations with the AU team.</li>"+
-                            "</ol>"+
+                            "</ol>"
                             + "Prepare atleast 10 MCQs from the topics to-be-covered as part of the session and share it with AU team by the end of the session. </p>"
                     ,"text/html");
 
