@@ -85,7 +85,7 @@ public class MailerServiceImpl implements MailerService {
             BodyPart contentPart = new MimeBodyPart();
 
             contentPart.setContent("<p>Hello " + sessionDTO.getTrainer().getTrainerName() + "<br><br>" +
-                            "You have been invited to take up the " + sessionDTO.getSessionName() + " session and thank you for your participation!!<br><br>" +
+                            "Please refer to the attachments for the guidelines, topics to be covered and presentation template<br><br>" +
                             "Please refer to the attachments for the guidelines, topics to be covered and presentation template<br><br></p>"+
                             "<p>Some highlights that are required to follow:</p>\r\n" +
                             "<ol>\r\n" +
@@ -94,7 +94,7 @@ public class MailerServiceImpl implements MailerService {
                             "  <li>Have a Q & A session.</li>" +
                             "<li>Ensure to have hands-on for the sessions wherever applicable.</li>"+
                             "<li>Provide an assignment to the AU�rs and share the evaluations with the AU team.</li>"+
-                            "</ol>"+"<p>Please send us the presentation that would be used. "
+                            "</ol>"
                             + "Prepare atleast 10 MCQs from the topics to-be-covered as part of the session and share it with AU team by the end of the session. </p>"
                     ,"text/html");
 
@@ -104,23 +104,27 @@ public class MailerServiceImpl implements MailerService {
             String tableContent ="<table style='border-collapse:collapse; border:1px solid black'>\r\n" +
                     "  <tr style='text-align:center;padding:10px;border:1px solid black'>\r\n" +
                     "    <th height='50' style='text-align:center;padding:10px;border:1px solid black'>Date</th>\r\n" +
+                    "    <th height='50' style='text-align:center;padding:10px;border:1px solid black'>Day</th>\r\n" +
                     "    <th height='50' style='text-align:center;padding:10px;border:1px solid black'>Time</th>\r\n" +
                     "    <th height='50' style='text-align:center;padding:10px;border:1px solid black'>Topic</th>\r\n" +
-                    "    <th height='50' style='text-align:center;padding:10px;border:1px solid black'>Classroom Id</th>\r\n" +
                     "  </tr>";
 
             String slot = sessionDTO.getDaySlot().compareToIgnoreCase("M") == 0 ? "Morning" : "Afternoon";
+            String days[] = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+            String day = sessionDTO.getStartDate().getDay() >= 0 ? sessionDTO.getStartDate().getDay() <= 6 ? days[sessionDTO.getStartDate().getDay()] : "" : ""; 
             tableContent = tableContent.concat(
                     "  <tr style='text-align:center;padding:10px;border:1px solid black'>\r\n" +
                             "    <td height='50' style='text-align:center;padding:10px;border:1px solid black'>"+sessionDTO.getStartDate().toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))+"</th>\r\n" +
+                            "    <td height='50' style='text-align:center;padding:10px;border:1px solid black'>"+day+"</th>\r\n" +
                             "    <td height='50' style='text-align:center;padding:10px;border:1px solid black'>"+slot+"</th>\r\n" +
                             "    <td height='50' style='text-align:center;padding:10px;border:1px solid black'>"+sessionDTO.getSessionName()+"</th>\r\n" +
-                            "    <td height='50' style='text-align:center;padding:10px;border:1px solid black'>"+sessionDTO.getClassroomTopicId()+"</th>\r\n" +
                             "  </tr>");
 
             //style="border-collapse:collapse; border:1px solid black"
             tableContent = tableContent.concat("</table>" +
-                    "<p><b>Note:</b>  This mail contains all the presentations for a given topic as some topics are "
+            		"<p><b>Meeting Details:</b></p>"+
+            		"<p>Join the meeting <a href="">here</a> for the session [<a href="">For 'here' - GMeet Link</a>]</p><br>"
+                    + "<p><b>Note:</b>  This mail contains all the presentations for a given topic as some topics are "
                     + "distributed across different presentations in previous years."
                     + " Please take whatever is necessary based on the topic assigned and ignore the rest.</p>"
                     + "<p>Please reach out to AU core team in case of any queries</p>");
