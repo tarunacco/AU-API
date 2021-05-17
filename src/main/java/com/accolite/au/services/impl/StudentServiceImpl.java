@@ -104,47 +104,24 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void uploadFile(MultipartFile studentFile, int batchId) {
-        try{
+        try {
             InputStreamReader reader = new InputStreamReader(studentFile.getInputStream());
             CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
             List<String[]> rows = csvReader.readAll();
-            for(String[] row : rows){
-                if(this.isValidRow(row)){
+            for (String[] row : rows) {
+                if (this.isValidRow(row)) {
                     this.saveStudentEntry(new StudentDTO(row[0], row[1], row[2], row[3]), batchId);
-                }
-                else{
+                } else {
                     System.out.println("Validation Error, Wrong Row Format");
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Some Exception Occurred!! " + e.toString());
         }
     }
 
-    private Map<String, Object> findIfLocationExists(List<Map<String, Object>> studentsCountPerLocation, String location){
-        for(Map<String, Object> entry : studentsCountPerLocation){
-            //System.out.println("Incoming Parent");
-            Set<Map.Entry<String, Object>> locationsSet = entry.entrySet();
-            for(Map.Entry<String, Object> entry1 : locationsSet){
-                if(entry1.getKey().compareTo("location") == 0 && entry1.getValue().toString().compareTo(location) == 0){
-                    return entry;
-                }
-            }
-        }
-        return new HashMap(){{
-            put("location", location);
-            put("studentPerLocation", 0);
-        }};
-    }
-
     @Override
     public List<Map<String, Object>> getAllStudentsCountPerLocation(int batchId){
-        List<Map<String, Object>> studentsCountPerLocation = studentRepository.getAllStudentsCountPerLocation(batchId);
-        System.out.println(studentsCountPerLocation);
-        List<Map<String, Object>> finalStudentsCountPerLocation = new ArrayList();
-        for(String location : globalVariables.getLocations()){
-            finalStudentsCountPerLocation.add(findIfLocationExists(studentsCountPerLocation, location));
-        }
-        return finalStudentsCountPerLocation;
+        return studentRepository.getAllStudentsCountPerLocation(batchId);
     }
 }
