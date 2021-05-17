@@ -123,7 +123,7 @@ public class MailerServiceImpl implements MailerService {
             //style="border-collapse:collapse; border:1px solid black"
             tableContent = tableContent.concat("</table>" +
             		"<p><b>Meeting Details:</b></p>"+
-            		"<p>Join the meeting <a href="">here</a> for the session [<a href="">For 'here' - GMeet Link</a>]</p><br>"
+            		"<p>Join the meeting <a href=''>here</a> for the session [<a href=''>For 'here' - GMeet Link</a>]</p><br>"
                     + "<p><b>Note:</b>  This mail contains all the presentations for a given topic as some topics are "
                     + "distributed across different presentations in previous years."
                     + " Please take whatever is necessary based on the topic assigned and ignore the rest.</p>"
